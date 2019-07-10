@@ -28,51 +28,57 @@ public class RSAUtils
     private static PrivateKey PrivateKeyInstance;
 
 
-    public RSAUtils(String PublicKey,String PrivateKey) throws NoSuchAlgorithmException, InvalidKeySpecException
+    public RSAUtils(String PublicKey, String PrivateKey) throws NoSuchAlgorithmException, InvalidKeySpecException
     {
         InitRSAKeys(PublicKey, PrivateKey);
     }
 
-    public RSAUtils(byte[] PublicKeyBytes,byte[] PrivateKeyBytes) throws NoSuchAlgorithmException, InvalidKeySpecException
+    public RSAUtils(byte[] PublicKeyBytes, byte[] PrivateKeyBytes) throws NoSuchAlgorithmException, InvalidKeySpecException
     {
-            this(new String(PublicKeyBytes, StandardCharsets.UTF_8),
-                        PrivateKeyBytes!=null? new String(PrivateKeyBytes, StandardCharsets.UTF_8) : null);
+        this(new String(PublicKeyBytes, StandardCharsets.UTF_8),
+                PrivateKeyBytes != null ? new String(PrivateKeyBytes, StandardCharsets.UTF_8) : null);
     }
 
     public String Encrypt(String message) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException
     {
-        Cipher cipher = Cipher.getInstance(KeyPadding,new BouncyCastleProvider());
-        cipher.init(Cipher.ENCRYPT_MODE,PublicKeyInstance);
+        if (PublicKeyInstance == null)
+        {
+            throw new IllegalArgumentException("Public key has not been initialized!");
+        }
+        Cipher cipher = Cipher.getInstance(KeyPadding, new BouncyCastleProvider());
+        cipher.init(Cipher.ENCRYPT_MODE, PublicKeyInstance);
         byte[] encrypted = cipher.doFinal(message.getBytes(StandardCharsets.UTF_8));
-        return Base64.encodeToString(encrypted,Base64.DEFAULT);
+        return Base64.encodeToString(encrypted, Base64.DEFAULT);
     }
 
     public String Decrypt(String EncryptedMessage) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException
     {
-        if(PrivateKeyInstance == null) {
+        if (PrivateKeyInstance == null)
+        {
             throw new IllegalArgumentException("Private key has not been initialized!");
         }
 
-        byte[] encrypted = Base64.decode(EncryptedMessage,Base64.DEFAULT);
-        Cipher cipher = Cipher.getInstance(KeyPadding,new BouncyCastleProvider());
-        cipher.init(Cipher.DECRYPT_MODE,PrivateKeyInstance);
+        byte[] encrypted = Base64.decode(EncryptedMessage, Base64.DEFAULT);
+        Cipher cipher = Cipher.getInstance(KeyPadding, new BouncyCastleProvider());
+        cipher.init(Cipher.DECRYPT_MODE, PrivateKeyInstance);
 
         return new String(cipher.doFinal(encrypted), StandardCharsets.UTF_8);
     }
 
-    public void InitRSAKeys(String PublicKey,String PrivateKey) throws NoSuchAlgorithmException, InvalidKeySpecException
+    public void InitRSAKeys(String PublicKey, String PrivateKey) throws NoSuchAlgorithmException, InvalidKeySpecException
     {
         PublicKey = PublicKey.replaceAll("\\n", "").replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "");
         KeyFactory kf = KeyFactory.getInstance("RSA");
-        X509EncodedKeySpec PublicKeyX509 = new X509EncodedKeySpec(Base64.decode(PublicKey,Base64.DEFAULT));
+            X509EncodedKeySpec PublicKeyX509 = new X509EncodedKeySpec(Base64.decode(PublicKey, Base64.DEFAULT));
         PublicKeyInstance = (RSAPublicKey) kf.generatePublic(PublicKeyX509);
 
-        Log.d(TAG,"Loading public key finished!");
+        Log.d(TAG, "Loading public key finished!");
 
-        if(PrivateKey!=null) {
-            PKCS8EncodedKeySpec PrivateKeySpec = new PKCS8EncodedKeySpec(Base64.decode(PrivateKey,Base64.DEFAULT));
+        if (PrivateKey != null)
+        {
+            PKCS8EncodedKeySpec PrivateKeySpec = new PKCS8EncodedKeySpec(Base64.decode(PrivateKey, Base64.DEFAULT));
             PrivateKeyInstance = kf.generatePrivate(PrivateKeySpec);
-            Log.d(TAG,"Loading private key finished!");
+            Log.d(TAG, "Loading private key finished!");
         }
     }
 }
