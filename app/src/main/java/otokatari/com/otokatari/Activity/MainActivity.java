@@ -1,8 +1,9 @@
-package otokatari.com.otokatari;
+package otokatari.com.otokatari.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import otokatari.com.otokatari.R;
 import otokatari.com.otokatari.Utils.RSAUtils;
 
 import javax.crypto.BadPaddingException;
@@ -56,5 +57,4 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
     }
-
 }

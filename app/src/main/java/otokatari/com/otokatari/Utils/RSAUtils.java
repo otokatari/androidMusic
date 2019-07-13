@@ -22,12 +22,10 @@ import java.security.spec.X509EncodedKeySpec;
 public class RSAUtils
 {
     private static final String TAG = "RSAUtils";
-
     private static final String KeyPadding = "RSA/None/PKCS1Padding";
     private static RSAPublicKey PublicKeyInstance;
     private static PrivateKey PrivateKeyInstance;
-
-
+    
     public RSAUtils(String PublicKey, String PrivateKey) throws NoSuchAlgorithmException, InvalidKeySpecException
     {
         InitRSAKeys(PublicKey, PrivateKey);
@@ -45,7 +43,7 @@ public class RSAUtils
         {
             throw new IllegalArgumentException("Public key has not been initialized!");
         }
-        Cipher cipher = Cipher.getInstance(KeyPadding, new BouncyCastleProvider());
+        Cipher cipher = Cipher.getInstance(KeyPadding, new BouncyCastleProvider());// Specify key padding format and encrypt implementation provider.
         cipher.init(Cipher.ENCRYPT_MODE, PublicKeyInstance);
         byte[] encrypted = cipher.doFinal(message.getBytes(StandardCharsets.UTF_8));
         return Base64.encodeToString(encrypted, Base64.DEFAULT);
