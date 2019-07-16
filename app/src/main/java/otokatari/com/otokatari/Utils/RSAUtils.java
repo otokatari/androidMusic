@@ -3,7 +3,6 @@ package otokatari.com.otokatari.Utils;
 import android.util.Base64;
 import android.util.Log;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -37,7 +36,7 @@ public class RSAUtils
                 PrivateKeyBytes != null ? new String(PrivateKeyBytes, StandardCharsets.UTF_8) : null);
     }
 
-    public String Encrypt(String message) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException
+    public  String Encrypt(String message) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException
     {
         if (PublicKeyInstance == null)
         {

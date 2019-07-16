@@ -3,6 +3,7 @@ package otokatari.com.otokatari.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import org.bouncycastle.jcajce.provider.symmetric.ARC4;
 import otokatari.com.otokatari.R;
 import otokatari.com.otokatari.Utils.RSAUtils;
 
@@ -17,7 +18,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
 {
 
     @Override
@@ -26,35 +27,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        try
-        {
-            BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open("otokatari-public.txt")));
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-            br.close();
 
-            RSAUtils rsa = new RSAUtils(sb.toString(),null);
-            String encrypted = rsa.Encrypt("郑泽屁明");
-
-            Log.d("MainActivity",encrypted);
-        } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e)
-        {
-            e.printStackTrace();
-        } catch (BadPaddingException e)
-        {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e)
-        {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e)
-        {
-            e.printStackTrace();
-        } catch (InvalidKeyException e)
-        {
-            e.printStackTrace();
-        }
     }
 }

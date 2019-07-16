@@ -22,7 +22,7 @@ import rx.observers.Observers;
 
 import java.io.IOException;
 
-public class playMusicActivity extends AppCompatActivity implements View.OnClickListener {
+public class playMusicActivity extends BaseActivity implements View.OnClickListener {
     private MediaPlayer mediaPlayer;
     private boolean prepared = false;
     private boolean preparing = false;
