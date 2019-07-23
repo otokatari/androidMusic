@@ -8,9 +8,9 @@
         tools:context=".Activity.RegisterActivity">
 
     <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" app:srcCompat="@mipmap/icon"
-            android:id="@+id/imageView2" android:layout_marginTop="32dp"
+            android:layout_width="164dp"
+            android:layout_height="160dp" app:srcCompat="@mipmap/icon"
+            android:id="@+id/imageView2"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="32dp" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="32dp"/>
@@ -26,10 +26,11 @@
             android:layout_height="wrap_content"
             android:inputType="phone"
             android:ems="10"
-            android:id="@+id/editText1" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="32dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="32dp" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/phone"/>
+            android:id="@+id/editText1"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/phone" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="32dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="32dp"/>
     <TextView
             android:text="密码"
             android:layout_width="wrap_content"
@@ -69,5 +70,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/registerPageButton" android:layout_marginTop="32dp"
             app:layout_constraintTop_toBottomOf="@+id/editText3" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:layout_marginBottom="24dp" app:layout_constraintBottom_toBottomOf="parent"/>
 </android.support.constraint.ConstraintLayout>

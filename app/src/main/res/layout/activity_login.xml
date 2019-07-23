@@ -22,34 +22,35 @@
             app:layout_constraintTop_toTopOf="@+id/loginButton" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="64dp"/>
     <ImageView
-            android:layout_width="211dp"
-            android:layout_height="196dp" app:srcCompat="@mipmap/icon"
-            android:id="@+id/imageView" android:layout_marginTop="32dp"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="150dp"
+            android:layout_height="150dp" app:srcCompat="@mipmap/icon"
+            android:id="@+id/imageView"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="32dp"
-    />
+            app:layout_constraintTop_toTopOf="parent"/>
     <TextView
             android:text="用户名"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/account" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp" app:layout_constraintTop_toBottomOf="@+id/imageView"/>
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/imageView"/>
     <EditText
-            android:layout_width="0dp"
+            android:layout_width="296dp"
             android:layout_height="wrap_content"
             android:inputType="phone"
             android:ems="10"
             android:id="@+id/editAccount"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/account"
-            android:layout_marginEnd="32dp" app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/account" android:layout_marginStart="32dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="32dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
     <TextView
             android:text="密码"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/password" android:layout_marginTop="32dp"
+            android:id="@+id/password" android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/editAccount" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="32dp"/>
     <EditText
@@ -63,24 +64,24 @@
             android:layout_marginEnd="32dp" app:layout_constraintEnd_toEndOf="parent"/>
     <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="19dp"
             android:id="@+id/textView" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="32dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp" android:text="————第三方登录————"
-            android:layout_marginTop="32dp" app:layout_constraintTop_toBottomOf="@+id/loginButton"/>
+            android:layout_marginTop="32dp" app:layout_constraintTop_toBottomOf="@+id/loginButton"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/qqImage"/>
     <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" app:srcCompat="@mipmap/ic_launcher_round"
+            android:layout_width="55dp"
+            android:layout_height="42dp" app:srcCompat="@mipmap/ic_launcher_round"
             android:id="@+id/qqImage"
-            android:layout_marginTop="32dp"
             app:layout_constraintTop_toBottomOf="@+id/textView" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="64dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="64dp" android:layout_marginBottom="64dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_marginEnd="64dp"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
     <CheckBox
             android:text="记住密码"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/checkBox" android:layout_marginTop="16dp"
+            android:id="@+id/checkBox" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/editPassword" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="32dp"/>
 </android.support.constraint.ConstraintLayout>

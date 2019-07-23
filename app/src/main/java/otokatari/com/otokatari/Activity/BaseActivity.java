@@ -6,7 +6,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import otokatari.com.otokatari.Service.Common.ActivityCollector;
 
-
 public class BaseActivity extends AppCompatActivity {
     Intent aa=getIntent();
     private Focreof receiver;
@@ -33,7 +32,7 @@ public class BaseActivity extends AppCompatActivity {
         ActivityCollector.removeActivity(this);
     }
 
-    class Focreof extends BroadcastReceiver {//当广播成功响应时，弹出一个对话框，显示一些信息，并且之后会回到登录的界面
+    class Focreof extends BroadcastReceiver {
         public void onReceive(final Context context, final Intent intent){
 
             AlertDialog.Builder builder=new AlertDialog.Builder(context);

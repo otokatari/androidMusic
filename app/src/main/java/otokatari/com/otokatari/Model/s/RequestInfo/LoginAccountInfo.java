@@ -1,4 +1,4 @@
-package otokatari.com.otokatari.Model.s.RequestLoginAccountInfo;
+package otokatari.com.otokatari.Model.s.RequestInfo;
 
 public class LoginAccountInfo {
     private String identifier;

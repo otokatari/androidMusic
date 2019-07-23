@@ -1,12 +1,9 @@
 package otokatari.com.otokatari.Utils;
 
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.ProgressDialog;
+import android.app.*;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -16,21 +13,20 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.widget.Toast;
+//import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.Response;
 import otokatari.com.otokatari.Application.otokatariAndroidApplication;
 import otokatari.com.otokatari.BuildConfig;
 import otokatari.com.otokatari.Model.s.Response.CommonResponse;
-import otokatari.com.otokatari.R;
-
 import java.io.File;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -62,6 +58,23 @@ public class AppUtils
         return dialog;
     }
 
+    public static String GetRequest(String url)
+    {
+        try {
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+            Response response = client.newCall(request).execute();
+            if(response.isSuccessful()) {
+                String responseData = response.body().string();
+                return responseData;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public static void ShowNoNetworkError()
     {
         Toast.makeText(otokatariAndroidApplication.getContext(), "Cannot connect to network service",Toast.LENGTH_SHORT).show();
@@ -120,15 +133,15 @@ public class AppUtils
         return TokenDateFormatter().format(UnixStamp2Date(unix));
     }
 
-    public static void ToolbarShowReturnButton(AppCompatActivity activity, Toolbar tb)
-    {//toolbar返回键
-        activity.setSupportActionBar(tb);
-        ActionBar ab = activity.getSupportActionBar();
-        if (ab != null)
-        {
-            ab.setDisplayHomeAsUpEnabled(true);
-        }
-    }
+//    public static void ToolbarShowReturnButton(AppCompatActivity activity, Toolbar tb)
+//    {//toolbar返回键
+//        activity.setSupportActionBar(tb);
+//        ActionBar ab = activity.getSupportActionBar();
+//        if (ab != null)
+//        {
+//            ab.setDisplayHomeAsUpEnabled(true);
+//        }
+//    }
 
 
     public static boolean IfAppIsRunning(Context context)
@@ -170,18 +183,6 @@ public class AppUtils
         File Path = new File(MountedSdcardPrefix.length > 1 ? MountedSdcardPrefix[1] : MountedSdcardPrefix[0], Environment.DIRECTORY_DCIM);
         return Path.getAbsolutePath();
     }
-
-//    public static String GetDCIMPath() {
-//        int LocationFlag = otokatariAndroidApplication.getAppService().GetAppSettings().getTakePhotoStoreLocation();
-//        switch (LocationFlag) {
-//            case 0:
-//                return GetSystemDCIMPath();
-//            case 1:
-//                return GetAppDataDCIMPath();
-//            default:
-//                return GetSystemDCIMPath();
-//        }
-//    }
 
     public static Uri ParseResourceIdToUri(int resId)
     {

@@ -2,48 +2,46 @@ package otokatari.com.otokatari.Tasks;
 
 import com.google.gson.Gson;
 import okhttp3.*;
-import otokatari.com.otokatari.Application.otokatariAndroidApplication;
 import otokatari.com.otokatari.InfrastructureExtension.TasksExtensions.CustomPostExecuteAsyncTask;
 import otokatari.com.otokatari.InfrastructureExtension.TasksExtensions.TaskPostExecuteWrapper;
-import otokatari.com.otokatari.Model.s.RequestLoginAccountInfo.LoginAccountInfo;
+import otokatari.com.otokatari.Model.s.RequestInfo.PublishShare;
+import otokatari.com.otokatari.Model.s.RequestInfo.PublishShareWithoutMusicid;
 import otokatari.com.otokatari.Model.s.Response.CommonResponse;
 import otokatari.com.otokatari.User.APIDocs;
-
 import java.util.concurrent.TimeUnit;
 
-import static otokatari.com.otokatari.Utils.HMACSHA256Utils.sha256_HMAC;
-
-public class PostRegisterInfoAsyncTask extends CustomPostExecuteAsyncTask<String,Void, CommonResponse> {
+public class PublishShareTask  extends CustomPostExecuteAsyncTask<PublishShare, Void, CommonResponse> {
     private OkHttpClient okHttpClient;
     private otokatari.com.otokatari.Application.otokatariAndroidApplication otokatariAndroidApplication;
-    public PostRegisterInfoAsyncTask(TaskPostExecuteWrapper<CommonResponse> DoInPostExecute) {
+
+    public PublishShareTask(TaskPostExecuteWrapper<CommonResponse> DoInPostExecute) {
         super(DoInPostExecute);
+
     }
+
     @Override
-    public CommonResponse doInBackground(String... information) {
+    public CommonResponse doInBackground(PublishShare ... publishShare) {
         try {
-            LoginAccountInfo info = new LoginAccountInfo();
-            info.setIdentifier(information[0]);
-            String afterEncryption =otokatariAndroidApplication.RSAUtilsEncrypt(sha256_HMAC(information[1]));
-            info.setCredentials(afterEncryption);
-            info.setType(Integer.valueOf(information[2]));
+            String URL=APIDocs.fullPublishShare+publishShare[0].getMusicid();
+            PublishShareWithoutMusicid publishShareWithoutMusicid=new PublishShareWithoutMusicid();
+            publishShareWithoutMusicid=publishShare[0].getPublishShareWithoutMusicid();
+
             Gson gson = new Gson();
-            String result = gson.toJson(info, LoginAccountInfo.class);
+            String result = gson.toJson(publishShareWithoutMusicid, PublishShareWithoutMusicid.class);
             RequestBody requestBody = FormBody.create(MediaType.parse("application/json"), result);
             Request request = new Request.Builder()
-                    .url(APIDocs.fullRegister)
+                    .url(URL)
                     .post(requestBody)
                     .build();
             Response response = okHttpClient.newCall(request).execute();
 
             if (response.isSuccessful()) {
                 String responseData = response.body().string();
-                CommonResponse resp = gson.fromJson(responseData, CommonResponse.class);
-                return resp;
+               CommonResponse res = gson.fromJson(responseData, CommonResponse.class);
+                return res;
             }
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -55,6 +53,3 @@ public class PostRegisterInfoAsyncTask extends CustomPostExecuteAsyncTask<String
         okHttpClient = new OkHttpClient.Builder().connectTimeout(4500, TimeUnit.MILLISECONDS).build();
     }
 }
-
-
-

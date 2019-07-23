@@ -3,8 +3,10 @@ package otokatari.com.otokatari.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import org.bouncycastle.jcajce.provider.symmetric.ARC4;
 import otokatari.com.otokatari.R;
+import otokatari.com.otokatari.Tasks.PostLoginInfoTask;
 import otokatari.com.otokatari.Utils.RSAUtils;
 
 import javax.crypto.BadPaddingException;
@@ -26,7 +28,14 @@ public class MainActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
     }
+//    public void test()
+//    {
+//        new PostLoginInfoTask(TaskRet -> {
+//            if(TaskRet!=null) {
+//
+//            }
+//
+//        }).execute();
+//    }
 }
