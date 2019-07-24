@@ -108,7 +108,6 @@ public class LoginActivity extends BaseActivity {
         {
             public void onClick(View v){
                 if (!mTencent.isSessionValid()) {
-
                     mTencent.login(LoginActivity.this, "all", mListener);
                 }
             }
@@ -117,7 +116,6 @@ public class LoginActivity extends BaseActivity {
     private void ClearInValidateUserAccountInfo() {
         //既然跳到了这个页面，说明之前的登陆信息是无效的，需要清除。
         QQAuthCredentials.ClearStoredIdentity();
-
     }
 
     public boolean accountLogin(String username,String password) {//验证此账号密码是否正确
@@ -138,7 +136,6 @@ public class LoginActivity extends BaseActivity {
             parseResult(o);
             PersistUserInfo();
             PrepareToMainActivity();
-
         }
 
         @Override
@@ -182,7 +179,6 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         Tencent.onActivityResultData(requestCode, resultCode, data, mListener);
     }
 }

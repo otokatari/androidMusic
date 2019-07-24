@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import otokatari.com.otokatari.Service.Common.ActivityCollector;
 
 public class BaseActivity extends AppCompatActivity {
-    Intent aa=getIntent();
     private Focreof receiver;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +33,6 @@ public class BaseActivity extends AppCompatActivity {
 
     class Focreof extends BroadcastReceiver {
         public void onReceive(final Context context, final Intent intent){
-
             AlertDialog.Builder builder=new AlertDialog.Builder(context);
             builder.setTitle("警告");
             builder.setMessage("Dear:"+intent.getStringExtra("t")+"! You are forced to be offline. Please try to login again.");

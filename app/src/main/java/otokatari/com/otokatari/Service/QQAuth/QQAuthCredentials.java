@@ -100,9 +100,7 @@ public class QQAuthCredentials
     }
 
     public static void LoadUserAccountInfo() {
-        UserService
-                .LoadUserQQProfile()
-                .getUserInfo(CommonUserInfoListener);
+        UserService.LoadUserQQProfile().getUserInfo(CommonUserInfoListener);
     }
 
     public static IUiListener CommonUserInfoListener = new IUiListener() {
