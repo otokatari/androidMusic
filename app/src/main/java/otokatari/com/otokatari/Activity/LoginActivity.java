@@ -1,5 +1,6 @@
 package otokatari.com.otokatari.Activity;
 
+import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -9,12 +10,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.*;
@@ -27,6 +29,8 @@ import otokatari.com.otokatari.Application.otokatariAndroidApplication;
 import otokatari.com.otokatari.Persistence.DateBaseHelper;
 import otokatari.com.otokatari.R;
 import otokatari.com.otokatari.Service.QQAuth.QQAuthCredentials;
+import otokatari.com.otokatari.Utils.Animation;
+
 import static java.lang.System.currentTimeMillis;
 
 public class LoginActivity extends BaseActivity {
@@ -51,11 +55,11 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         init();
-        startAnimation();
     }
     private void init()
     {
         remember=(CheckBox)findViewById(R.id.checkBox) ;
+        final Button startButton = (Button)findViewById(R.id.login_start);
         Button login=(Button)findViewById(R.id.loginButton);
         Button register=(Button)findViewById(R.id.registerButton);
         accountEdit=(EditText)findViewById(R.id.editAccount) ;
@@ -81,6 +85,14 @@ public class LoginActivity extends BaseActivity {
             passwordEdit.setText(pass);//把保存的账号和密码读取出来
             remember.setChecked(true);
         }
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAnimation();
+                startButton.setVisibility(View.INVISIBLE);
+            }
+        });
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//点击注册跳到注册的页面
@@ -195,12 +207,31 @@ public class LoginActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Tencent.onActivityResultData(requestCode, resultCode, data, mListener);
     }
+/****************************************************Animation********************************************************/
 
     private void startAnimation(){
 
-        //TranslateAnimation translateAnimation = new TranslateAnimation()
-        ScaleAnimation scaleAnimation = new ScaleAnimation(3.14f, 1, 3.14f, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        scaleAnimation.setDuration(1000);
-        menuIcon.setAnimation(scaleAnimation);
+
+        ValueAnimator translateUp = ValueAnimator.ofInt(Animation.dpToPx(100, otokatariAndroidApplication.getContext()),
+                Animation.dpToPx(8, otokatariAndroidApplication.getContext()));
+        translateUp.setDuration(500);
+        translateUp.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int currValue = (int) valueAnimator.getAnimatedValue();
+                ConstraintLayout.LayoutParams lp = (ConstraintLayout.LayoutParams) menuIcon.getLayoutParams();
+                lp.topMargin = currValue;
+                menuIcon.setLayoutParams(lp);
+            }
+        });
+
+
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(
+                ObjectAnimator.ofFloat(menuIcon, "scaleX", 1, 0.8f),
+                ObjectAnimator.ofFloat(menuIcon, "scaleY", 1, 0.8f),
+                translateUp
+        );
+        set.setDuration(500).start();
     }
 }
