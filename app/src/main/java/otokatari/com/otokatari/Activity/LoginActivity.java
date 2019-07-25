@@ -42,6 +42,9 @@ public class LoginActivity extends BaseActivity {
     private EditText passwordEdit;
     private CheckBox remember;
     private ImageView menuIcon;
+    private ConstraintLayout loginLayout;
+    private TextView startName;
+    private Button startButton;
 
     //qq登录
     private Tencent mTencent;
@@ -59,12 +62,14 @@ public class LoginActivity extends BaseActivity {
     private void init()
     {
         remember=(CheckBox)findViewById(R.id.checkBox) ;
-        final Button startButton = (Button)findViewById(R.id.login_start);
         Button login=(Button)findViewById(R.id.loginButton);
         Button register=(Button)findViewById(R.id.registerButton);
         accountEdit=(EditText)findViewById(R.id.editAccount) ;
         passwordEdit=(EditText)findViewById(R.id.editPassword) ;
+        startButton = (Button)findViewById(R.id.login_start);
+        startName = (TextView)findViewById(R.id.start_name);
         menuIcon = (ImageView)findViewById(R.id.menuIcon);
+        loginLayout = (ConstraintLayout)findViewById(R.id.login_layout);
 
         final ImageView qqImage=findViewById(R.id.qqImage);
 
@@ -89,7 +94,6 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 startAnimation();
-                startButton.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -211,10 +215,9 @@ public class LoginActivity extends BaseActivity {
 
     private void startAnimation(){
 
-
         ValueAnimator translateUp = ValueAnimator.ofInt(Animation.dpToPx(100, otokatariAndroidApplication.getContext()),
-                Animation.dpToPx(8, otokatariAndroidApplication.getContext()));
-        translateUp.setDuration(500);
+                Animation.dpToPx(0, otokatariAndroidApplication.getContext()));
+        //translateUp.setDuration(500);
         translateUp.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -225,12 +228,38 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
+        startButton.setOnClickListener(null);
+        loginLayout.setVisibility(View.VISIBLE);
+        ValueAnimator fadeIn = ValueAnimator.ofFloat(0, 1);
+        //fadeIn.setDuration(500);
+        fadeIn.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float currentValue = (float) valueAnimator.getAnimatedValue();
+                loginLayout.setAlpha(currentValue);
+            }
+        });
+
+        ValueAnimator fadeOut = ValueAnimator.ofFloat(1, 0);
+        //fadeOut.setDuration(500);
+        fadeOut.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float currentValue = (float) valueAnimator.getAnimatedValue();
+                startButton.setAlpha(currentValue);
+                startName.setAlpha(currentValue);
+            }
+            
+        });
+
 
         AnimatorSet set = new AnimatorSet();
         set.playTogether(
                 ObjectAnimator.ofFloat(menuIcon, "scaleX", 1, 0.8f),
                 ObjectAnimator.ofFloat(menuIcon, "scaleY", 1, 0.8f),
-                translateUp
+                translateUp,
+                fadeIn,
+                fadeOut
         );
         set.setDuration(500).start();
     }

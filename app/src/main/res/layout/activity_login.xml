@@ -11,7 +11,7 @@
     <TextView
             android:text="音·语"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/textView2"
+            android:layout_height="wrap_content" android:id="@+id/start_name"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
@@ -30,7 +30,7 @@
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="268dp"
-            android:id="@+id/constraintLayout"
+            android:id="@+id/login_layout"
             app:layout_constraintEnd_toEndOf="parent" android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/textView" app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="200dp">
@@ -113,7 +113,7 @@
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp" android:text="————第三方登录————"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/qqImage" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"/>
+            app:layout_constraintTop_toBottomOf="@+id/login_layout"/>
     <ImageView
             android:layout_width="0dp"
             app:srcCompat="@mipmap/icon"
