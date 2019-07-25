@@ -75,6 +75,7 @@ public class AppUtils
         }
         return null;
     }
+
     public static void ShowNoNetworkError()
     {
         Toast.makeText(otokatariAndroidApplication.getContext(), "Cannot connect to network service",Toast.LENGTH_SHORT).show();

@@ -1,8 +1,15 @@
 package otokatari.com.otokatari.Activity;
 
 import android.os.Bundle;
+import android.util.Log;
+import otokatari.com.otokatari.Application.otokatariAndroidApplication;
+import otokatari.com.otokatari.Model.s.RequestInfo.LoginAccountInfo;
+import otokatari.com.otokatari.Model.s.RequestInfo.SimpleMusic;
+import otokatari.com.otokatari.Model.s.RequestInfo.UploadPlayBehavior;
 import otokatari.com.otokatari.R;
-import otokatari.com.otokatari.Tasks.PostLoginInfoTask;
+import otokatari.com.otokatari.Tasks.*;
+
+import static otokatari.com.otokatari.Utils.HMACSHA256Utils.sha256_HMAC;
 
 public class MainActivity extends BaseActivity
 {
@@ -12,15 +19,36 @@ public class MainActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-     //   test();
+        test();
     }
-//    public void test()
-//    {
-//        new PostLoginInfoTask(TaskRet -> {
-//            if(TaskRet!=null) {
-//
-//            }
-//
-//        }).execute();
-//    }
+    public void test()
+    {
+//        LoginAccountInfo loginAccountInfo=new LoginAccountInfo();
+//        loginAccountInfo.setIdentifier("15521332013");
+//        loginAccountInfo.setCredentials("123");
+//        loginAccountInfo.setType(0);
+
+        SimpleMusic simpleMusic=new SimpleMusic();
+        simpleMusic.setAlbumid("1");
+        simpleMusic.setAlbumname("12");
+        simpleMusic.setMusicid("123");
+        simpleMusic.setName("zoom");
+        simpleMusic.setPlatform("kugou");
+        simpleMusic.setSingerid("1");
+        simpleMusic.setSingername("zj");
+        UploadPlayBehavior uploadPlayBehavior=new UploadPlayBehavior();
+        uploadPlayBehavior.setUserid("1");
+        uploadPlayBehavior.setTime(2123);
+        uploadPlayBehavior.setMusic(simpleMusic);
+        uploadPlayBehavior.setIsinplaylist(false);
+        uploadPlayBehavior.setBehaviour("like");
+
+        new PostPlayBehaviorTask(TaskRet -> {
+            if(TaskRet!=null)
+                Log.d("MainActivity",String.valueOf(TaskRet.getStatusCode()));
+            else
+                Log.d("MainActivity","gg");
+        }).execute(uploadPlayBehavior);
+
+   }
 }

@@ -29,7 +29,6 @@ public class RegisterActivity extends BaseActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //dbhelper.getWritableDatabase();
                 phoneAccount=(EditText)findViewById(R.id.editText1);
                 password1=(EditText)findViewById(R.id.editText2) ;
                 password2=(EditText)findViewById(R.id.editText3);
@@ -42,7 +41,6 @@ public class RegisterActivity extends BaseActivity {
                 else if (!password.equals(passwordAgain))
                     Toast.makeText(RegisterActivity.this,"两次输入的密码不一致",Toast.LENGTH_SHORT).show();
                 else {
-
                     if (register(newAccount, password)) {
                         Toast.makeText(RegisterActivity.this, "恭喜您 注册成功，即将返回登录界面", Toast.LENGTH_SHORT).show();
                         Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);

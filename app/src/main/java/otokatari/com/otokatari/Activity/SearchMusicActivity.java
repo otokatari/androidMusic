@@ -75,8 +75,6 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
 
     /**
      * 设置提示框显示项的个数
-     *
-     * @param hintSize 提示框显示个数
      */
     public static void setHintSize(int hintSize) {
         SearchMusicActivity.hintSize = hintSize;
@@ -89,25 +87,25 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_search_music);
         initData();
-        initViews();
+       // initViews();
     }
 
-    private void initViews() {
-        lvResults = (ListView) findViewById(R.id.main_lv_search_results);
-        searchView = (SearchView) findViewById(R.id.main_search_layout);
-        //设置监听
-        searchView.setSearchViewListener(this);
-        //设置adapter
-        searchView.setTipsHintAdapter(hintAdapter);
-        searchView.setAutoCompleteAdapter(autoCompleteAdapter);
-
-        lvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Toast.makeText(SearchMusicActivity.this, position + "", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    private void initViews() {
+//        lvResults = (ListView) findViewById(R.id.main_lv_search_results);
+//        searchView = (SearchView) findViewById(R.id.main_search_layout);
+//        //设置监听
+//        searchView.setSearchViewListener(this);
+//        //设置adapter
+//        searchView.setTipsHintAdapter(hintAdapter);
+//        searchView.setAutoCompleteAdapter(autoCompleteAdapter);
+//
+//        lvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+//                Toast.makeText(SearchMusicActivity.this, position + "", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     /**
      * 初始化数据
@@ -193,7 +191,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     }
 
     /**
-     * 当搜索框 文本改变时 触发的回调 ,更新自动补全数据
+     * 当搜索框文本改变时触发的回调 ,更新自动补全数据
      * @param text
      */
     @Override

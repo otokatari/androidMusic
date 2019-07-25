@@ -12,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 
 public class AddMusicToPlaylistTask extends CustomPostExecuteAsyncTask<SongsWithPlaylistID,Void, CommonResponse> {
     private OkHttpClient okHttpClient;
-    private otokatari.com.otokatari.Application.otokatariAndroidApplication otokatariAndroidApplication;
     public AddMusicToPlaylistTask(TaskPostExecuteWrapper<CommonResponse> DoInPostExecute) {
         super(DoInPostExecute);
     }

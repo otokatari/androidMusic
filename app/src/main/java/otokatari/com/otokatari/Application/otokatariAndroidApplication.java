@@ -98,6 +98,7 @@ public class otokatariAndroidApplication extends Application {
     {
         return CurrentNetworkStatus;
     }
+
     public  void getPublicKey()
     {
         try
@@ -115,18 +116,15 @@ public class otokatariAndroidApplication extends Application {
         {
             e.printStackTrace();
         }
-
     }
 
-    public  String RSAUtilsEncrypt(String s)
+    public static String RSAUtilsEncrypt(String s)
     {
-
         String encrypted="";
         try
         {
             RSAUtils rsa = new RSAUtils(SB,null);
             encrypted=rsa.Encrypt(s);
-
             Log.d("MainActivity",encrypted);
         } catch ( NoSuchAlgorithmException | InvalidKeySpecException e)
         {

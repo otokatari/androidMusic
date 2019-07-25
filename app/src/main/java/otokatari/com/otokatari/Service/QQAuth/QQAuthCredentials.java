@@ -27,7 +27,6 @@ public class QQAuthCredentials
 
     public static boolean Validate()
     {
-
         boolean HaveUserIdentity = preferences.getBoolean("HaveStoredUserIdentity", false);
         if (HaveUserIdentity)
         {
@@ -46,12 +45,12 @@ public class QQAuthCredentials
 
     public static String GetAccessToken()
     {
-        Context ctx = otokatariAndroidApplication.getContext();
-        SharedPreferences sp = ctx.getSharedPreferences("LoginReturnData", MODE_PRIVATE);
-        boolean IsHaveStoredUserIdentity = sp.getBoolean("HaveStoredUserIdentity",false);
+        //Context ctx = otokatariAndroidApplication.getContext();
+        //SharedPreferences sp = ctx.getSharedPreferences("LoginReturnData", MODE_PRIVATE);
+        boolean IsHaveStoredUserIdentity = preferences.getBoolean("HaveStoredUserIdentity",false);
 
         if(IsHaveStoredUserIdentity){
-            return sp.getString("access_token", null);
+            return preferences.getString("access_token", null);
         }
         return null;
     }

@@ -11,7 +11,7 @@ import otokatari.com.otokatari.User.APIDocs;
 import java.util.concurrent.TimeUnit;
 import static otokatari.com.otokatari.Utils.HMACSHA256Utils.sha256_HMAC;
 
-public class PostLoginInfoTask extends CustomPostExecuteAsyncTask<String, Void, LoginResponse> {
+public class PostLoginInfoTask extends CustomPostExecuteAsyncTask<LoginAccountInfo, Void, LoginResponse> {
     private OkHttpClient okHttpClient;
     private otokatariAndroidApplication otokatariAndroidApplication;
 
@@ -21,15 +21,13 @@ public class PostLoginInfoTask extends CustomPostExecuteAsyncTask<String, Void, 
     }
 
     @Override
-    public LoginResponse doInBackground(String... information) {
+    public LoginResponse doInBackground(LoginAccountInfo ... loginAccountInfos) {
         try {
-            LoginAccountInfo info = new LoginAccountInfo();
-            info.setIdentifier(information[0]);
-            String afterEncryption = otokatariAndroidApplication.RSAUtilsEncrypt(sha256_HMAC(information[1]));
-            info.setCredentials(afterEncryption);
-            info.setType(Integer.valueOf(information[2]));
+
+            String afterEncryption = otokatariAndroidApplication.RSAUtilsEncrypt(sha256_HMAC(loginAccountInfos[0].getCredentials()));
+            loginAccountInfos[0].setCredentials(afterEncryption);
             Gson gson = new Gson();
-            String result = gson.toJson(info, LoginAccountInfo.class);
+            String result = gson.toJson(loginAccountInfos, LoginAccountInfo.class);
             RequestBody requestBody = FormBody.create(MediaType.parse("application/json"), result);
             Request request = new Request.Builder()
                     .url(APIDocs.fullLogin)
