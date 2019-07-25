@@ -47,7 +47,9 @@
                 android:name="com.tencent.connect.common.AssistActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-        <activity android:name=".Activity.RegisterActivity">
+        <activity android:name=".Activity.RegisterActivity"
+                  android:theme="@style/AppDarkBackground.NoActionBar">
+
         </activity>
         <activity android:name=".Activity.BaseActivity">
         </activity>
@@ -55,9 +57,21 @@
 
         </activity>
         <activity android:name=".Activity.playMusicActivity">
+
         </activity>
         <activity android:name=".Activity.LoginActivity">
 
+
+
+
+        </activity>
+        <activity android:name=".Activity.LoginActivity"
+                    android:theme="@style/AppDarkBackground.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
 
         </activity>
     </application>

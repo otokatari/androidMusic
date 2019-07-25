@@ -1,13 +1,24 @@
 package otokatari.com.otokatari.Activity;
 
+import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.*;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
@@ -18,6 +29,8 @@ import otokatari.com.otokatari.Application.otokatariAndroidApplication;
 import otokatari.com.otokatari.Persistence.DateBaseHelper;
 import otokatari.com.otokatari.R;
 import otokatari.com.otokatari.Service.QQAuth.QQAuthCredentials;
+import otokatari.com.otokatari.Utils.Animation;
+
 import static java.lang.System.currentTimeMillis;
 
 public class LoginActivity extends BaseActivity {
@@ -28,6 +41,7 @@ public class LoginActivity extends BaseActivity {
     private EditText accountEdit;
     private EditText passwordEdit;
     private CheckBox remember;
+    private ImageView menuIcon;
 
     //qq登录
     private Tencent mTencent;
@@ -45,10 +59,13 @@ public class LoginActivity extends BaseActivity {
     private void init()
     {
         remember=(CheckBox)findViewById(R.id.checkBox) ;
+        final Button startButton = (Button)findViewById(R.id.login_start);
         Button login=(Button)findViewById(R.id.loginButton);
         Button register=(Button)findViewById(R.id.registerButton);
         accountEdit=(EditText)findViewById(R.id.editAccount) ;
         passwordEdit=(EditText)findViewById(R.id.editPassword) ;
+        menuIcon = (ImageView)findViewById(R.id.menuIcon);
+
         final ImageView qqImage=findViewById(R.id.qqImage);
 
         dbhelp=new DateBaseHelper(this,"Users.db",null,1);//数据库的初始化
@@ -68,6 +85,14 @@ public class LoginActivity extends BaseActivity {
             passwordEdit.setText(pass);//把保存的账号和密码读取出来
             remember.setChecked(true);
         }
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAnimation();
+                startButton.setVisibility(View.INVISIBLE);
+            }
+        });
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//点击注册跳到注册的页面
@@ -113,6 +138,7 @@ public class LoginActivity extends BaseActivity {
             }
         });
     }
+
     private void ClearInValidateUserAccountInfo() {
         //既然跳到了这个页面，说明之前的登陆信息是无效的，需要清除。
         QQAuthCredentials.ClearStoredIdentity();
@@ -180,5 +206,32 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Tencent.onActivityResultData(requestCode, resultCode, data, mListener);
+    }
+/****************************************************Animation********************************************************/
+
+    private void startAnimation(){
+
+
+        ValueAnimator translateUp = ValueAnimator.ofInt(Animation.dpToPx(100, otokatariAndroidApplication.getContext()),
+                Animation.dpToPx(8, otokatariAndroidApplication.getContext()));
+        translateUp.setDuration(500);
+        translateUp.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int currValue = (int) valueAnimator.getAnimatedValue();
+                ConstraintLayout.LayoutParams lp = (ConstraintLayout.LayoutParams) menuIcon.getLayoutParams();
+                lp.topMargin = currValue;
+                menuIcon.setLayoutParams(lp);
+            }
+        });
+
+
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(
+                ObjectAnimator.ofFloat(menuIcon, "scaleX", 1, 0.8f),
+                ObjectAnimator.ofFloat(menuIcon, "scaleY", 1, 0.8f),
+                translateUp
+        );
+        set.setDuration(500).start();
     }
 }
