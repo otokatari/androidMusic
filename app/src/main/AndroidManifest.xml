@@ -16,11 +16,6 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity android:name=".Activity.playUIActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <service
                 android:name=".Service.MusicService"
@@ -59,12 +54,7 @@
         <activity android:name=".Activity.playMusicActivity">
 
         </activity>
-        <activity android:name=".Activity.LoginActivity">
 
-
-
-
-        </activity>
         <activity android:name=".Activity.LoginActivity"
                     android:theme="@style/AppDarkBackground.NoActionBar">
             <intent-filter>
