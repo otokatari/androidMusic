@@ -220,4 +220,5 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
         }
         Toast.makeText(this, "完成搜素", Toast.LENGTH_SHORT).show();
     }
+
 }

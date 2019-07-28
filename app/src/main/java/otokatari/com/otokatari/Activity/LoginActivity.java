@@ -113,7 +113,10 @@ public class LoginActivity extends BaseActivity {
                 String userName=accountEdit.getText().toString();//获取文本框的数据
                 String passWord=passwordEdit.getText().toString();
                 if (accountLogin(userName,passWord)) {
-                    Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                    //temporary
+                    Intent intent=new Intent(LoginActivity.this, TempSearchAcitvity.class);
+                    startActivity(intent);
                     editor=pref.edit();
                     if(remember.isChecked()){//复选框是否被选中
                         int username=pref.getInt("username",0);
@@ -249,7 +252,7 @@ public class LoginActivity extends BaseActivity {
                 startButton.setAlpha(currentValue);
                 startName.setAlpha(currentValue);
             }
-            
+
         });
 
 
