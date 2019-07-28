@@ -114,9 +114,11 @@ public class LoginActivity extends BaseActivity {
                 String passWord=passwordEdit.getText().toString();
                 if (accountLogin(userName,passWord)) {
                     Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+
                     //temporary
-                    Intent intent=new Intent(LoginActivity.this, TempSearchAcitvity.class);
+                    Intent intent=new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+
                     editor=pref.edit();
                     if(remember.isChecked()){//复选框是否被选中
                         int username=pref.getInt("username",0);
