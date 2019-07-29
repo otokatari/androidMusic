@@ -15,7 +15,9 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".Activity.playUIActivity">
+        <activity
+                android:name=".Activity.playUIActivity"
+                android:theme="@style/AppDarkBackground.NoActionBar">
         </activity>
 
         <service
@@ -50,8 +52,9 @@
         </activity>
         <activity android:name=".Activity.BaseActivity">
         </activity>
-        <activity android:name=".Activity.MainActivity"
-                  android:theme="@style/AppDarkBackground.NoActionBar">
+        <activity
+                android:name=".Activity.MainActivity"
+                android:theme="@style/AppDarkBackground.NoActionBar">
         </activity>
         <activity android:name=".Activity.playMusicActivity">
         </activity>
@@ -64,7 +67,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.TempSearchAcitvity"
+        <activity
+                android:name=".Activity.TempSearchAcitvity"
+                android:theme="@style/AppDarkBackground.NoActionBar">
+        </activity>
+        <activity android:name=".Activity.TempPlayMusicActivity"
                   android:theme="@style/AppDarkBackground.NoActionBar">
         </activity>
     </application>
