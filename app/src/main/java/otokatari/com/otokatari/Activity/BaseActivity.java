@@ -8,38 +8,42 @@ import otokatari.com.otokatari.Service.Common.ActivityCollector;
 
 public class BaseActivity extends AppCompatActivity {
     private Focreof receiver;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityCollector.addAvtivity(this);
     }
-    protected void onResume(){
+
+    protected void onResume() {
         super.onResume();
-        IntentFilter intentFilter=new IntentFilter();
+        IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.example.office");
-        receiver=new Focreof();
-        registerReceiver(receiver,intentFilter);
+        receiver = new Focreof();
+        registerReceiver(receiver, intentFilter);
     }
-    protected void onPause(){
+
+    protected void onPause() {
         super.onPause();
-        if(receiver!=null){
+        if (receiver != null) {
             unregisterReceiver(receiver);
-            receiver=null;
+            receiver = null;
         }
     }
-    protected void onDestroy(){
+
+    protected void onDestroy() {
         super.onDestroy();
         ActivityCollector.removeActivity(this);
     }
 
     class Focreof extends BroadcastReceiver {
-        public void onReceive(final Context context, final Intent intent){
-            AlertDialog.Builder builder=new AlertDialog.Builder(context);
+        public void onReceive(final Context context, final Intent intent) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("警告");
-            builder.setMessage("Dear:"+intent.getStringExtra("t")+"! You are forced to be offline. Please try to login again.");
-            builder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int which){
+            builder.setMessage("Dear:" + intent.getStringExtra("t") + "! You are forced to be offline. Please try to login again.");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
                     ActivityCollector.finishAll();
-                    Intent intent=new Intent(context,MainActivity.class);
+                    Intent intent = new Intent(context, MainActivity.class);
                     context.startActivity(intent);
                 }
             });
