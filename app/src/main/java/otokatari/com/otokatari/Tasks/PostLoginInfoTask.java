@@ -27,7 +27,7 @@ public class PostLoginInfoTask extends CustomPostExecuteAsyncTask<LoginAccountIn
             String afterEncryption = otokatariAndroidApplication.RSAUtilsEncrypt(sha256_HMAC(loginAccountInfos[0].getCredentials()));
             loginAccountInfos[0].setCredentials(afterEncryption);
             Gson gson = new Gson();
-            String result = gson.toJson(loginAccountInfos, LoginAccountInfo.class);
+            String result = gson.toJson(loginAccountInfos[0], LoginAccountInfo.class);
             RequestBody requestBody = FormBody.create(MediaType.parse("application/json"), result);
             Request request = new Request.Builder()
                     .url(APIDocs.fullLogin)

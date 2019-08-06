@@ -1,7 +1,6 @@
 package otokatari.com.otokatari.Activity;
 
 import android.animation.AnimatorSet;
-import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
@@ -13,12 +12,6 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.animation.AnimationSet;
-import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
 import android.widget.*;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
@@ -26,17 +19,18 @@ import com.tencent.tauth.UiError;
 import org.json.JSONException;
 import org.json.JSONObject;
 import otokatari.com.otokatari.Application.otokatariAndroidApplication;
+import otokatari.com.otokatari.Model.s.RequestInfo.LoginAccountInfo;
 import otokatari.com.otokatari.Persistence.DateBaseHelper;
 import otokatari.com.otokatari.R;
 import otokatari.com.otokatari.Service.QQAuth.QQAuthCredentials;
+import otokatari.com.otokatari.Tasks.PostLoginInfoTask;
 import otokatari.com.otokatari.Utils.Animation;
-
 import static java.lang.System.currentTimeMillis;
 
 public class LoginActivity extends BaseActivity {
 
     private SharedPreferences pref;//利用SharedPreferences来保存数据
-    private SharedPreferences.Editor editor;//用来保存密码
+    private SharedPreferences.Editor editor1;//用来保存密码
     private DateBaseHelper dbhelp;
     private EditText accountEdit;
     private EditText passwordEdit;
@@ -52,7 +46,6 @@ public class LoginActivity extends BaseActivity {
     private String openID;
     public String access_token;
     private String expires;
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +67,7 @@ public class LoginActivity extends BaseActivity {
         final ImageView qqImage=findViewById(R.id.qqImage);
 
         dbhelp=new DateBaseHelper(this,"Users.db",null,1);//数据库的初始化
+
         mTencent = otokatariAndroidApplication.getQQAuthService();
         if (mListener == null) {
             mListener = new QQLoginListener();
@@ -105,36 +99,54 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-
         login.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 accountEdit=(EditText)findViewById(R.id.editAccount);
                 passwordEdit=(EditText)findViewById(R.id.editPassword);
                 String userName=accountEdit.getText().toString();//获取文本框的数据
                 String passWord=passwordEdit.getText().toString();
-                if (accountLogin(userName,passWord)) {
-                    Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                LoginAccountInfo loginAccountInfo=new LoginAccountInfo();
+                loginAccountInfo.setType(0);
+                loginAccountInfo.setCredentials(passWord);
+                loginAccountInfo.setIdentifier(userName);
 
-                    //temporary
-                    Intent intent=new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
+                new PostLoginInfoTask(TaskRet -> {
+                    if(TaskRet!=null) {
+                       if(TaskRet.getStatusCode()==0)
+                       {
+                           Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                           SharedPreferences.Editor editor=getSharedPreferences("LoginReturnData",MODE_PRIVATE).edit();
+                           editor.putString("UserID",TaskRet.getUserID());
+                           editor.putString("AccessToken"+TaskRet.getUserID(),TaskRet.getAccessToken());
+                           editor1=pref.edit();
+                           if(remember.isChecked()){//复选框是否被选中
+                               int username=pref.getInt("username",0);
+                               editor1.putBoolean("remember_pass",true);//把记住密码设置为true
+                               editor1.putString("account"+username,userName);
+                               editor1.putString("password"+username,passWord);//把密码和账号分别保存到account和password里面
+                               editor1.putInt("username",username+1);
+                           }
+                           else{
+                               editor.clear();//清空editor保存的东西
+                           }
+                           editor.apply();//启用editor
+                           Intent intent=new Intent(LoginActivity.this, MainActivity.class);
+                           startActivity(intent);
+                       }
+                       if(TaskRet.getStatusCode()==-1)
+                       {
+                           Toast.makeText(LoginActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+                       }
+                       if(TaskRet.getStatusCode()==-2)
+                       {
+                           Toast.makeText(LoginActivity.this,"服务器未知错误",Toast.LENGTH_SHORT).show();
+                       }
 
-                    editor=pref.edit();
-                    if(remember.isChecked()){//复选框是否被选中
-                        int username=pref.getInt("username",0);
-                        editor.putBoolean("remember_pass",true);//把记住密码设置为true
-                        editor.putString("account"+username,userName);
-                        editor.putString("password"+username,passWord);//把密码和账号分别保存到account和password里面
-                        editor.putInt("username",username+1);
                     }
-                    else{
-                        editor.clear();//清空editor保存的东西
+                    else {
+                        Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT).show();//失败，弹出登陆失败
                     }
-                    editor.apply();//启用editor
-                }
-                else {
-                    Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT).show();//失败，弹出登陆失败
-                }
+                }).execute(loginAccountInfo);
             }});
 
         ClearInValidateUserAccountInfo();
@@ -256,8 +268,6 @@ public class LoginActivity extends BaseActivity {
             }
 
         });
-
-
         AnimatorSet set = new AnimatorSet();
         set.playTogether(
                 ObjectAnimator.ofFloat(menuIcon, "scaleX", 1, 0.8f),

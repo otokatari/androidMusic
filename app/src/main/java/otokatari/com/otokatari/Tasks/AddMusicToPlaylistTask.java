@@ -24,6 +24,7 @@ public class AddMusicToPlaylistTask extends CustomPostExecuteAsyncTask<SongsWith
             String validUrl=APIDocs.fullAddMusicToPlaylist+songsWithPlaylistIDS[0].getPlaylistid();
             Request request = new Request.Builder()
                     .url(validUrl)
+                    .addHeader("Authorization","Bearer "+songsWithPlaylistIDS[0].getAccessToken())
                     .post(requestBody)
                     .build();
             Response response = okHttpClient.newCall(request).execute();

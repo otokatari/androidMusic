@@ -7,6 +7,7 @@ import okhttp3.Response;
 import otokatari.com.otokatari.InfrastructureExtension.TasksExtensions.CustomPostExecuteAsyncTask;
 import otokatari.com.otokatari.InfrastructureExtension.TasksExtensions.TaskPostExecuteWrapper;
 import otokatari.com.otokatari.Model.s.Response.UserInfoDetailsResponse;
+import otokatari.com.otokatari.Service.UserService.UserService;
 import otokatari.com.otokatari.User.APIDocs;
 import java.util.concurrent.TimeUnit;
 
@@ -25,6 +26,7 @@ public class GetUserInfoDetailsTask extends CustomPostExecuteAsyncTask<String, V
             }
             Request request = new Request.Builder()
                     .url(VariedUrl)
+                    .addHeader("Authorization","Bearer "+ UserService.GetAccessToken())
                     .build();
             Response response = okHttpClient.newCall(request).execute();
             if (response.isSuccessful()){

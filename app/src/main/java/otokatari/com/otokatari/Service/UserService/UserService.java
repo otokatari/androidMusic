@@ -87,4 +87,13 @@ public class UserService {
         EditSp.putString("Alias",alias);
         EditSp.apply();
     }
+    public static String GetUserID()
+    {
+        return sp.getString("UserID",null);
+    }
+    public static String GetAccessToken()
+    {
+        return sp.getString("AccessToken"+GetUserID(),null);
+    }
 }
+

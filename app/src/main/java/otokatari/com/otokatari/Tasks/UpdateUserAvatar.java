@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class updateUserAvatar {
+public class UpdateUserAvatar {
     public void updateUserAvatars()throws IOException {
         String url = "http://129.204.223.158/backend/user/profile/changeavatar";
         File file = new File("avatar.jpg");

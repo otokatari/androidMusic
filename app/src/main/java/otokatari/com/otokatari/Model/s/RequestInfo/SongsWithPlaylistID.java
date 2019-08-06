@@ -8,6 +8,7 @@ public class SongsWithPlaylistID {
     private String Albumname;
     private String Albumid;
     private String playlistid;
+    private String AccessToken;
 
     public String getAlbumid() {
         return Albumid;
@@ -63,5 +64,13 @@ public class SongsWithPlaylistID {
 
     public void setPlaylistid(String playlistid) {
         this.playlistid = playlistid;
+    }
+
+    public String getAccessToken() {
+        return AccessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        AccessToken = accessToken;
     }
 }

@@ -125,7 +125,6 @@ public class otokatariAndroidApplication extends Application {
         {
             RSAUtils rsa = new RSAUtils(SB,null);
             encrypted=rsa.Encrypt(s);
-            Log.d("MainActivity",encrypted);
         } catch ( NoSuchAlgorithmException | InvalidKeySpecException e)
         {
             e.printStackTrace();
