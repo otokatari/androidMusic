@@ -6,6 +6,7 @@ import otokatari.com.otokatari.InfrastructureExtension.TasksExtensions.CustomPos
 import otokatari.com.otokatari.InfrastructureExtension.TasksExtensions.TaskPostExecuteWrapper;
 import otokatari.com.otokatari.Model.s.RequestInfo.UserInfoDetails;
 import otokatari.com.otokatari.Model.s.Response.CommonResponse;
+import otokatari.com.otokatari.Service.UserService.UserService;
 import otokatari.com.otokatari.User.APIDocs;
 import java.util.concurrent.TimeUnit;
 
@@ -21,12 +22,13 @@ public class PostUserInfoDetailsTask extends CustomPostExecuteAsyncTask<UserInfo
         try {
 
             Gson gson = new Gson();
-            String result = gson.toJson(userInfoDetails, UserInfoDetails.class);
+            String result = gson.toJson(userInfoDetails[0], UserInfoDetails.class);
             RequestBody requestBody = FormBody.create(MediaType.parse("application/json"), result);
-            int id=0; //获取用户id?
-            String fullUrl=APIDocs.fullUpdateUserInfo+id;
+
+            String fullUrl=APIDocs.fullUpdateUserInfo+UserService.GetUserID();
             Request request = new Request.Builder()
                     .url(fullUrl)
+                    .addHeader("Authorization","Bearer "+ UserService.GetAccessToken())
                     .post(requestBody)
                     .build();
             Response response = okHttpClient.newCall(request).execute();

@@ -1,6 +1,7 @@
 package otokatari.com.otokatari.Tasks;
 
 import okhttp3.*;
+import otokatari.com.otokatari.Service.UserService.UserService;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +21,13 @@ public class UpdateUserAvatar {
         Map<String,String> headers = new HashMap<>();
         headers.put("Authorization","Bearer "+"<JWT-Token-Here>");
         Headers headerz = Headers.of(headers);
-        Request request = new Request.Builder().post(body).headers(headerz).url(url).build();
+        Request request = new Request
+                .Builder()
+                .post(body)
+                .headers(headerz)
+                .url(url)
+                .addHeader("Authorization","Bearer "+ UserService.GetAccessToken())
+                .build();
         OkHttpClient client = new OkHttpClient();
         Response resp = client.newCall(request).execute();
         if(resp.isSuccessful())

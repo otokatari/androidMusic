@@ -8,6 +8,7 @@ public class UserInfoWithoutStatusCode {
     private String Avatar;
     private String Signature;
     private int Birthday;
+    private String Userid;
 
     public byte getSex() {
         return Sex;
@@ -63,5 +64,13 @@ public class UserInfoWithoutStatusCode {
 
     public void setSignature(String signature) {
         Signature = signature;
+    }
+
+    public String getUserid() {
+        return Userid;
+    }
+
+    public void setUserid(String userid) {
+        Userid = userid;
     }
 }

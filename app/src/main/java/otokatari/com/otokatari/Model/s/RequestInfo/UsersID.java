@@ -1,13 +1,13 @@
 package otokatari.com.otokatari.Model.s.RequestInfo;
 
 public class UsersID {
-    private String[] usersid;
+    private String[] Userids;
 
     public String[] getUsersid() {
-        return usersid;
+        return Userids;
     }
 
     public void setUsersid(String[] usersid) {
-        this.usersid = usersid;
+        this.Userids = usersid;
     }
 }

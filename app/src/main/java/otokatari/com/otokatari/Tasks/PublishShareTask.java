@@ -7,6 +7,7 @@ import otokatari.com.otokatari.InfrastructureExtension.TasksExtensions.TaskPostE
 import otokatari.com.otokatari.Model.s.RequestInfo.PublishShare;
 import otokatari.com.otokatari.Model.s.RequestInfo.PublishShareWithoutMusicid;
 import otokatari.com.otokatari.Model.s.Response.CommonResponse;
+import otokatari.com.otokatari.Service.UserService.UserService;
 import otokatari.com.otokatari.User.APIDocs;
 import java.util.concurrent.TimeUnit;
 
@@ -31,6 +32,7 @@ public class PublishShareTask  extends CustomPostExecuteAsyncTask<PublishShare, 
             RequestBody requestBody = FormBody.create(MediaType.parse("application/json"), result);
             Request request = new Request.Builder()
                     .url(URL)
+                    .addHeader("Authorization","Bearer "+ UserService.GetAccessToken())
                     .post(requestBody)
                     .build();
             Response response = okHttpClient.newCall(request).execute();

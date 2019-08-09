@@ -29,9 +29,8 @@ import static java.lang.System.currentTimeMillis;
 
 public class LoginActivity extends BaseActivity {
 
-    private SharedPreferences pref;//利用SharedPreferences来保存数据
-    private SharedPreferences.Editor editor1;//用来保存密码
-    private DateBaseHelper dbhelp;
+    private SharedPreferences pref;//利用SharedPreferences来保存账号密码数据
+    private SharedPreferences.Editor editor1;
     private EditText accountEdit;
     private EditText passwordEdit;
     private CheckBox remember;
@@ -63,10 +62,7 @@ public class LoginActivity extends BaseActivity {
         startName = (TextView)findViewById(R.id.start_name);
         menuIcon = (ImageView)findViewById(R.id.menuIcon);
         loginLayout = (ConstraintLayout)findViewById(R.id.login_layout);
-
         final ImageView qqImage=findViewById(R.id.qqImage);
-
-        dbhelp=new DateBaseHelper(this,"Users.db",null,1);//数据库的初始化
 
         mTencent = otokatariAndroidApplication.getQQAuthService();
         if (mListener == null) {
@@ -74,12 +70,12 @@ public class LoginActivity extends BaseActivity {
         }
 
         pref= PreferenceManager.getDefaultSharedPreferences(this);
-        Boolean isremember=pref.getBoolean("remember_pass",false);//初始设置记住密码为false
-        DateBaseHelper database=new DateBaseHelper(this,"Users.db",null,1);
-        if(isremember){
-            int username=pref.getInt("username",0)-1;
-            String id=pref.getString("account"+username,"");
-            String pass=pref.getString("password"+username,"");
+        Boolean isRemember=pref.getBoolean("remember_pass",false);//初始设置记住密码为false
+
+        if(isRemember){
+           // int username=pref.getInt("username",0)-1;
+            String id=pref.getString("account","");
+            String pass=pref.getString("password","");
             accountEdit.setText(id);
             passwordEdit.setText(pass);//把保存的账号和密码读取出来
             remember.setChecked(true);
@@ -118,18 +114,8 @@ public class LoginActivity extends BaseActivity {
                            SharedPreferences.Editor editor=getSharedPreferences("LoginReturnData",MODE_PRIVATE).edit();
                            editor.putString("UserID",TaskRet.getUserID());
                            editor.putString("AccessToken"+TaskRet.getUserID(),TaskRet.getAccessToken());
-                           editor1=pref.edit();
-                           if(remember.isChecked()){//复选框是否被选中
-                               int username=pref.getInt("username",0);
-                               editor1.putBoolean("remember_pass",true);//把记住密码设置为true
-                               editor1.putString("account"+username,userName);
-                               editor1.putString("password"+username,passWord);//把密码和账号分别保存到account和password里面
-                               editor1.putInt("username",username+1);
-                           }
-                           else{
-                               editor.clear();//清空editor保存的东西
-                           }
-                           editor.apply();//启用editor
+                           editor.apply();
+                           checkRemember(userName,passWord);
                            Intent intent=new Intent(LoginActivity.this, MainActivity.class);
                            startActivity(intent);
                        }
@@ -159,22 +145,27 @@ public class LoginActivity extends BaseActivity {
             }
         });
     }
+    public void checkRemember(String userName,String passWord)
+    {
+        if(remember.isChecked()){//复选框是否被选中
+            //int username=pref.getInt("username",0);
+            editor1=pref.edit();
+            editor1.putBoolean("remember_pass",true);//把记住密码设置为true
+            editor1.putString("account",userName);
+            editor1.putString("password",passWord);//把密码和账号分别保存到account和password里面
+           // editor1.putInt("username",username+1);
+        }
+        else{
+            editor1.clear();//清空editor保存的东西
+        }
+        editor1.apply();//启用editor
+    }
 
     private void ClearInValidateUserAccountInfo() {
         //既然跳到了这个页面，说明之前的登陆信息是无效的，需要清除。
         QQAuthCredentials.ClearStoredIdentity();
     }
 
-    public boolean accountLogin(String username,String password) {//验证此账号密码是否正确
-        SQLiteDatabase db = dbhelp.getWritableDatabase();
-        String sql = "select * from userData where id=? and password=?";//将登录时填的账号和密码在数据库里面进行查询，如果存在该数据，则返回true，否则返回false
-        Cursor cursor = db.rawQuery(sql, new String[] {username, password});
-        if (cursor.moveToFirst()) {
-            cursor.close();
-            return true;
-        }
-        return false;
-    }
 
     private class QQLoginListener implements IUiListener {
         //登陆结果回调

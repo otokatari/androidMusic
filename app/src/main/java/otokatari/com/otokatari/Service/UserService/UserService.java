@@ -12,14 +12,14 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class UserService {
     private static Context ctx;
-    private UserAccount userAccount;
+    private UserAccount userAccount; //qq用户
     //private UserInformation MyProfile = new UserInformation();
     //private MyResponse Credentials;
     private static SharedPreferences sp;
 
     public UserService() {
         ctx = otokatariAndroidApplication.getContext();
-        sp = ctx.getSharedPreferences("LoginReturnData",MODE_PRIVATE);
+       sp = ctx.getSharedPreferences("LoginReturnData",MODE_PRIVATE);
     }
 
 //    public MyResponse getCredentials() {
@@ -89,11 +89,11 @@ public class UserService {
     }
     public static String GetUserID()
     {
-        return sp.getString("UserID",null);
+        return sp.getString("UserID","");
     }
     public static String GetAccessToken()
     {
-        return sp.getString("AccessToken"+GetUserID(),null);
+        return sp.getString("AccessToken"+GetUserID(),"");
     }
 }
 

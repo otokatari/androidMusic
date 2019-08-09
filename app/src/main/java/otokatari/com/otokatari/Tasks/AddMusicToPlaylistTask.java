@@ -6,7 +6,9 @@ import otokatari.com.otokatari.InfrastructureExtension.TasksExtensions.CustomPos
 import otokatari.com.otokatari.InfrastructureExtension.TasksExtensions.TaskPostExecuteWrapper;
 import otokatari.com.otokatari.Model.s.RequestInfo.Songs;
 import otokatari.com.otokatari.Model.s.RequestInfo.SongsWithPlaylistID;
+import otokatari.com.otokatari.Model.s.RequestInfo.SongsWithoutPlaylistID;
 import otokatari.com.otokatari.Model.s.Response.CommonResponse;
+import otokatari.com.otokatari.Service.UserService.UserService;
 import otokatari.com.otokatari.User.APIDocs;
 import java.util.concurrent.TimeUnit;
 
@@ -18,13 +20,20 @@ public class AddMusicToPlaylistTask extends CustomPostExecuteAsyncTask<SongsWith
     @Override
     public CommonResponse doInBackground(SongsWithPlaylistID ... songsWithPlaylistIDS) {
         try {
+            SongsWithoutPlaylistID songsWithoutPlaylistID=new SongsWithoutPlaylistID();
+            songsWithoutPlaylistID.setAlbumid(songsWithPlaylistIDS[0].getAlbumid());
+            songsWithoutPlaylistID.setAlbumname(songsWithPlaylistIDS[0].getAlbumname());
+            songsWithoutPlaylistID.setMusicid(songsWithPlaylistIDS[0].getMusicid());
+            songsWithoutPlaylistID.setPlatform(songsWithPlaylistIDS[0].getPlatform());
+            songsWithoutPlaylistID.setSingerid(songsWithPlaylistIDS[0].getSingerid());
+            songsWithoutPlaylistID.setSingername(songsWithPlaylistIDS[0].getSingername());
             Gson gson = new Gson();
-            String result = gson.toJson(songsWithPlaylistIDS, Songs.class);
+            String result = gson.toJson(songsWithoutPlaylistID, SongsWithoutPlaylistID.class);
             RequestBody requestBody = FormBody.create(MediaType.parse("application/json"), result);
             String validUrl=APIDocs.fullAddMusicToPlaylist+songsWithPlaylistIDS[0].getPlaylistid();
             Request request = new Request.Builder()
                     .url(validUrl)
-                    .addHeader("Authorization","Bearer "+songsWithPlaylistIDS[0].getAccessToken())
+                    .addHeader("Authorization","Bearer "+ UserService.GetAccessToken())
                     .post(requestBody)
                     .build();
             Response response = okHttpClient.newCall(request).execute();

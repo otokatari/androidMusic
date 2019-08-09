@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import otokatari.com.otokatari.Model.s.RequestInfo.LoginAccountInfo;
+import otokatari.com.otokatari.Model.s.RequestInfo.*;
 import otokatari.com.otokatari.R;
 import otokatari.com.otokatari.Service.UserService.UserService;
 import otokatari.com.otokatari.Tasks.*;
+
+import static otokatari.com.otokatari.Service.UserService.UserService.GetAccessToken;
 
 
 public class MainActivity extends BaseActivity
@@ -63,27 +65,30 @@ public class MainActivity extends BaseActivity
             SharedPreferences.Editor editor=getSharedPreferences("LoginReturnData",MODE_PRIVATE).edit();
             editor.putString("UserID",TaskRet.getUserID());
             editor.putString("AccessToken"+TaskRet.getUserID(),TaskRet.getAccessToken());
+            editor.apply();
         }
         else
             Log.d("MainActivity","gg");
     }).execute(loginAccountInfo);
 
 
-        new LogoutTask (TaskRet -> {
+        String[] a={"6150357411430400"};
+        UsersID userID=new UsersID();
+        userID.setUsersid(a);
+        new GetProfilelistInfoTask (TaskRet -> {
             if(TaskRet!=null) {
-                Log.d("MainActivity", String.valueOf(TaskRet.getStatusCode()));
+                Log.d("MainActivity", String.valueOf(TaskRet.get(0).getUserid()));
             }
             else
                 Log.d("MainActivity","gg");
-        }).execute();
+        }).execute(userID);
 
-        new GetUserInfoDetailsTask (TaskRet -> {
+        new GetProfilePrivacyListTask (TaskRet -> {
             if(TaskRet!=null) {
-                Log.d("MainActivity", String.valueOf(TaskRet.getStatusCode()));
+                Log.d("MainActivity", String.valueOf(TaskRet.get(0).getUserid()));
             }
             else
                 Log.d("MainActivity","gg");
-        }).execute(UserService.GetUserID());
-
+        }).execute(userID);
    }
 }

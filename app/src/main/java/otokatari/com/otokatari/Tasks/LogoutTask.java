@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class LogoutTask extends CustomPostExecuteAsyncTask<Void, Void, CommonResponse> {
     private OkHttpClient okHttpClient;
+    UserService userService= new UserService();
     public LogoutTask(TaskPostExecuteWrapper<CommonResponse> DoInPostExecute) {
         super(DoInPostExecute);
     }

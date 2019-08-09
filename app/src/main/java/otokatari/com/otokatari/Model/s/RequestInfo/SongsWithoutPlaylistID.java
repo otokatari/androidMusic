@@ -1,13 +1,12 @@
 package otokatari.com.otokatari.Model.s.RequestInfo;
 
-public class SongsWithPlaylistID {
+public class SongsWithoutPlaylistID {
     private String Musicid;
     private String Platform;
     private String Singerid;
     private String Singername;
     private String Albumname;
     private String Albumid;
-    private String playlistid;
 
     public String getAlbumid() {
         return Albumid;
@@ -31,10 +30,6 @@ public class SongsWithPlaylistID {
 
     public String getSingername() {
         return Singername;
-    }
-
-    public String getPlaylistid() {
-        return playlistid;
     }
 
     public void setAlbumid(String albumid) {
@@ -61,7 +56,4 @@ public class SongsWithPlaylistID {
         Singername = singername;
     }
 
-    public void setPlaylistid(String playlistid) {
-        this.playlistid = playlistid;
-    }
 }

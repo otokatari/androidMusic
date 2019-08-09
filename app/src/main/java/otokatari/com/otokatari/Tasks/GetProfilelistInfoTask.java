@@ -19,10 +19,10 @@ public class GetProfilelistInfoTask extends CustomPostExecuteAsyncTask<UsersID, 
     }
 
     @Override
-    protected List<UserInfoWithoutStatusCode> doInBackground(UsersID ... usersID) {
+    protected List<UserInfoWithoutStatusCode> doInBackground(UsersID ... Userids) {
         try {
             Gson gson1 = new Gson();
-            String result = gson1.toJson(usersID,UsersID.class);
+            String result = gson1.toJson(Userids[0],UsersID.class);
             RequestBody requestBody = FormBody.create(MediaType.parse("application/json"), result);
             Request request = new Request.Builder()
                     .url(APIDocs.fullGetProfilelist)
