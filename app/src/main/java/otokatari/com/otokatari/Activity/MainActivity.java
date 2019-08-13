@@ -6,8 +6,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import com.bumptech.glide.Glide;
+import de.hdodenhof.circleimageview.CircleImageView;
+import otokatari.com.otokatari.Application.otokatariAndroidApplication;
 import otokatari.com.otokatari.Model.s.RequestInfo.*;
 import otokatari.com.otokatari.R;
+import otokatari.com.otokatari.Service.UserService.UserAccount;
 import otokatari.com.otokatari.Service.UserService.UserService;
 import otokatari.com.otokatari.Tasks.*;
 
@@ -22,11 +26,22 @@ public class MainActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //init();
-        test();
+        init();
+       // test();
     }
     private void init(){
         Button search = findViewById(R.id.search);
+        CircleImageView ToolbarUserAvatar=findViewById(R.id.ToolbarUserAvatar);
+
+            UserAccount ua = otokatariAndroidApplication.getUserService().getUserAccount();
+            if (ua != null) {
+                //String NickName = ua.getNickname();
+                String AvatarUrl = ua.getImageUrl();
+                //NickNameTextView.setText(NickName);
+                Glide.with(MainActivity.this).load(AvatarUrl).into(ToolbarUserAvatar);
+                //Glide.with(MainActivity.this).load(AvatarUrl).into(NavigationHeaderBigAvatar);
+            }
+
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -37,58 +52,23 @@ public class MainActivity extends BaseActivity
         });
     }
 
-    public void test()
-    {
-        LoginAccountInfo loginAccountInfo=new LoginAccountInfo();
-        loginAccountInfo.setIdentifier("15521331111");
-        loginAccountInfo.setCredentials("1234");
-        loginAccountInfo.setType(0);
+//    public void test()
+//    {
+//        LoginAccountInfo loginAccountInfo=new LoginAccountInfo();
+//        loginAccountInfo.setIdentifier("15521331111");
+//        loginAccountInfo.setCredentials("1234");
+//        loginAccountInfo.setType(0);
+//        new PostLoginInfoTask (TaskRet -> {
+//        if(TaskRet!=null) {
+//            Log.d("MainActivity", String.valueOf(TaskRet.getStatusCode()));
+//            SharedPreferences.Editor editor=getSharedPreferences("LoginReturnData",MODE_PRIVATE).edit();
+//            editor.putString("UserID",TaskRet.getUserID());
+//            editor.putString("AccessToken"+TaskRet.getUserID(),TaskRet.getAccessToken());
+//            editor.apply();
+//        }
+//        else
+//            Log.d("MainActivity","gg");
+//    }).execute(loginAccountInfo);
+//   }
 
-//        SimpleMusic simpleMusic=new SimpleMusic();
-//        simpleMusic.setAlbumid("1");
-//        simpleMusic.setAlbumname("12");
-//        simpleMusic.setMusicid("123");
-//        simpleMusic.setName("zoom");
-//        simpleMusic.setPlatform("kugou");
-//        simpleMusic.setSingerid("1");
-//        simpleMusic.setSingername("zj");
-//        UploadPlayBehavior uploadPlayBehavior=new UploadPlayBehavior();
-//        uploadPlayBehavior.setUserid("1");
-//        uploadPlayBehavior.setTime(2123);
-//        uploadPlayBehavior.setMusic(simpleMusic);
-//        uploadPlayBehavior.setIsinplaylist(false);
-//        uploadPlayBehavior.setBehaviour("like");
-
-        new PostLoginInfoTask (TaskRet -> {
-        if(TaskRet!=null) {
-            Log.d("MainActivity", String.valueOf(TaskRet.getStatusCode()));
-            SharedPreferences.Editor editor=getSharedPreferences("LoginReturnData",MODE_PRIVATE).edit();
-            editor.putString("UserID",TaskRet.getUserID());
-            editor.putString("AccessToken"+TaskRet.getUserID(),TaskRet.getAccessToken());
-            editor.apply();
-        }
-        else
-            Log.d("MainActivity","gg");
-    }).execute(loginAccountInfo);
-
-
-        String[] a={"6150357411430400"};
-        UsersID userID=new UsersID();
-        userID.setUsersid(a);
-        new GetProfilelistInfoTask (TaskRet -> {
-            if(TaskRet!=null) {
-                Log.d("MainActivity", String.valueOf(TaskRet.get(0).getUserid()));
-            }
-            else
-                Log.d("MainActivity","gg");
-        }).execute(userID);
-
-        new GetProfilePrivacyListTask (TaskRet -> {
-            if(TaskRet!=null) {
-                Log.d("MainActivity", String.valueOf(TaskRet.get(0).getUserid()));
-            }
-            else
-                Log.d("MainActivity","gg");
-        }).execute(userID);
-   }
 }

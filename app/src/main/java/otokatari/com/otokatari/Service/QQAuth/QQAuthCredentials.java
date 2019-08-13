@@ -10,10 +10,11 @@ import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import org.json.JSONObject;
 import otokatari.com.otokatari.Application.otokatariAndroidApplication;
+import otokatari.com.otokatari.Model.s.RequestInfo.LoginAccountInfo;
 import otokatari.com.otokatari.Service.UserService.UserAccount;
 import otokatari.com.otokatari.Service.UserService.UserService;
+import otokatari.com.otokatari.Tasks.PostQQLoginInfoTask;
 import otokatari.com.otokatari.Utils.AppUtils;
-import otokatari.com.otokatari.Utils.EventProxy;
 import otokatari.com.otokatari.Utils.HMACSHA256Utils;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -63,24 +64,27 @@ public class QQAuthCredentials
         throw new IllegalArgumentException("先前持久化的AccessToken不正确，为空!");
     }
 
-//    public static void PushLoginInfoToBackend(String OpenID,String NickName) {
-//
-//        new PostUserInformationAsyncTask((res) ->
-//        {
-//            if(AppUtils.CommonResponseOK(res)) {
-//                if (res.getStatusCode() != 0) {
-//                    Log.d("QQAuthCredentials", "上报数据给服务器出现异常!");
-//                }
-//                //将服务器返回的UserID存入UserService对象。
-//                otokatariAndroidApplication.getUserService().SetUserID(res.getUserID());
-//                Log.d("QQAuthCredentials", "成功上报数据给服务器.");
-//
-//                //SplashActivity.GotoMainActivityEvent.emit("qq_login", EventProxy.EventStatus.Finish,"QQLoginFinish");
-//
-//                otokatariAndroidApplication.ReloadAfterLogin();
-//            }
-//        }).execute(OpenID, NickName, AppUtils.getAndroidId(ctx));
-//    }
+    public static void PushLoginInfoToBackend(String OpenID,String credentials) {
+
+        LoginAccountInfo loginAccountInfo=new LoginAccountInfo();
+        loginAccountInfo.setIdentifier(OpenID);
+        loginAccountInfo.setCredentials(credentials);
+        loginAccountInfo.setType(1);
+        new PostQQLoginInfoTask((res) ->
+        {
+            if(AppUtils.CommonResponseOK(res)) {
+                if (res.getStatusCode() != 0) {
+                    Log.d("QQAuthCredentials", "上报数据给服务器出现异常!");
+                }
+                //将服务器返回的UserID存入UserService对象。
+                //otokatariAndroidApplication.getUserService().SetUserID(res.getUserID());
+                else {
+                    Log.d("QQAuthCredentials", "成功上报数据给服务器.");
+                    otokatariAndroidApplication.ReloadAfterLogin();
+                }
+            }
+        }).execute(loginAccountInfo);
+    }
 
     public static void ClearStoredIdentity() {
         SharedPreferences.Editor editSp = preferences.edit();
@@ -96,6 +100,7 @@ public class QQAuthCredentials
         editor.putString("access_token", AccessToken);
         editor.putString("expires", TokenInvaildDate);
         editor.apply();
+        QQAuthCredentials.PushLoginInfoToBackend(OpenID,AccessToken);
     }
 
     public static void LoadUserAccountInfo() {
@@ -113,8 +118,6 @@ public class QQAuthCredentials
                 otokatariAndroidApplication
                         .getUserService()
                         .setUserAccount(new UserAccount(name,imgUrl));
-
-                //QQAuthCredentials.PushLoginInfoToBackend(openID,name);
 
             } catch (Exception e) {
                 e.printStackTrace();

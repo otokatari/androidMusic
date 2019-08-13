@@ -54,7 +54,7 @@ dependencies {
 
     //    implementation 'com.sothree.slidinguppanel:library:3.3.0'
 
-    //    implementation 'de.hdodenhof:circleimageview:2.1.0'
+        implementation 'de.hdodenhof:circleimageview:2.1.0'
 
     //    implementation 'org.modelmapper:modelmapper:2.3.0'
 

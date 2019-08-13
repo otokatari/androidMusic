@@ -73,7 +73,6 @@ public class LoginActivity extends BaseActivity {
         Boolean isRemember=pref.getBoolean("remember_pass",false);//初始设置记住密码为false
 
         if(isRemember){
-           // int username=pref.getInt("username",0)-1;
             String id=pref.getString("account","");
             String pass=pref.getString("password","");
             accountEdit.setText(id);
@@ -148,19 +147,21 @@ public class LoginActivity extends BaseActivity {
     public void checkRemember(String userName,String passWord)
     {
         if(remember.isChecked()){//复选框是否被选中
-            //int username=pref.getInt("username",0);
             editor1=pref.edit();
             editor1.putBoolean("remember_pass",true);//把记住密码设置为true
             editor1.putString("account",userName);
             editor1.putString("password",passWord);//把密码和账号分别保存到account和password里面
-           // editor1.putInt("username",username+1);
         }
         else{
+            if(editor1!=null)
             editor1.clear();//清空editor保存的东西
         }
+        if(editor1!=null)
         editor1.apply();//启用editor
     }
 
+
+//QQ
     private void ClearInValidateUserAccountInfo() {
         //既然跳到了这个页面，说明之前的登陆信息是无效的，需要清除。
         QQAuthCredentials.ClearStoredIdentity();
@@ -211,7 +212,8 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void PrepareToMainActivity() {
-        //SplashActivity.GoToMainActivityHandler.sendEmptyMessageDelayed(SplashActivity.OVERTIME_GOTO_MAINACTIVITY,10000);
+        Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+        startActivity(intent);
         QQAuthCredentials.LoadUserAccountInfo();
     }
 
