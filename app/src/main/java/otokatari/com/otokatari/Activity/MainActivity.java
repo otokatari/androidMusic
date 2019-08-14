@@ -18,35 +18,34 @@ import otokatari.com.otokatari.Tasks.*;
 import static otokatari.com.otokatari.Service.UserService.UserService.GetAccessToken;
 
 
-public class MainActivity extends BaseActivity
-{
+public class MainActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-       // test();
+        // test();
     }
-    private void init(){
-        Button search = findViewById(R.id.search);
-        CircleImageView ToolbarUserAvatar=findViewById(R.id.ToolbarUserAvatar);
 
-            UserAccount ua = otokatariAndroidApplication.getUserService().getUserAccount();
-            if (ua != null) {
-                //String NickName = ua.getNickname();
-                String AvatarUrl = ua.getImageUrl();
-                //NickNameTextView.setText(NickName);
-                Glide.with(MainActivity.this).load(AvatarUrl).into(ToolbarUserAvatar);
-                //Glide.with(MainActivity.this).load(AvatarUrl).into(NavigationHeaderBigAvatar);
-            }
+    private void init() {
+        Button search = findViewById(R.id.search);
+        CircleImageView ToolbarUserAvatar = findViewById(R.id.ToolbarUserAvatar);
+
+        UserAccount ua = otokatariAndroidApplication.getUserService().getUserAccount();
+        if (ua != null) {
+            //String NickName = ua.getNickname();
+            String AvatarUrl = ua.getImageUrl();
+            //NickNameTextView.setText(NickName);
+            Glide.with(MainActivity.this).load(AvatarUrl).into(ToolbarUserAvatar);
+            //Glide.with(MainActivity.this).load(AvatarUrl).into(NavigationHeaderBigAvatar);
+        }
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //temporary
-                Intent intent=new Intent(MainActivity.this, TempSearchAcitvity.class);
+                Intent intent = new Intent(MainActivity.this, TempSearchAcitvity.class);
                 startActivity(intent);
             }
         });

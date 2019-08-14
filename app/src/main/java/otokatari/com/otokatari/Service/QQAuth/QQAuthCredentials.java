@@ -72,7 +72,6 @@ public class QQAuthCredentials
         loginAccountInfo.setType(1);
         new PostQQLoginInfoTask((res) ->
         {
-            if(AppUtils.CommonResponseOK(res)) {
                 if (res.getStatusCode() != 0) {
                     Log.d("QQAuthCredentials", "上报数据给服务器出现异常!");
                 }
@@ -82,7 +81,7 @@ public class QQAuthCredentials
                     Log.d("QQAuthCredentials", "成功上报数据给服务器.");
                     otokatariAndroidApplication.ReloadAfterLogin();
                 }
-            }
+
         }).execute(loginAccountInfo);
     }
 
@@ -114,7 +113,7 @@ public class QQAuthCredentials
             try {
                 String name = jsonObject.getString("nickname");
                 String imgUrl = jsonObject.getString("figureurl_qq_2");  //头像url
-                String openID = otokatariAndroidApplication.getQQAuthService().getOpenId();
+                //String openID = otokatariAndroidApplication.getQQAuthService().getOpenId();
                 otokatariAndroidApplication
                         .getUserService()
                         .setUserAccount(new UserAccount(name,imgUrl));
