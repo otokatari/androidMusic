@@ -45,7 +45,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 //temporary
-                Intent intent = new Intent(MainActivity.this, TempSearchAcitvity.class);
+                Intent intent = new Intent(MainActivity.this, SearchMusicActivity.class);
                 startActivity(intent);
             }
         });
