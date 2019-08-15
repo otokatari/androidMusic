@@ -11,6 +11,7 @@ import android.widget.Toast;
 import otokatari.com.otokatari.Adapter.SearchAdapter;
 import otokatari.com.otokatari.Model.s.Bean;
 import otokatari.com.otokatari.R;
+import otokatari.com.otokatari.Tasks.KugouSearchSongsNotTask;
 import otokatari.com.otokatari.View.SearchView;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,28 +85,28 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_search_music);
         initData();
-       // initViews();
+        initViews();
     }
 
-//    private void initViews() {
-//        lvResults = (ListView) findViewById(R.id.main_lv_search_results);
-//        searchView = (SearchView) findViewById(R.id.main_search_layout);
-//        //设置监听
-//        searchView.setSearchViewListener(this);
-//        //设置adapter
-//        searchView.setTipsHintAdapter(hintAdapter);
-//        searchView.setAutoCompleteAdapter(autoCompleteAdapter);
-//
-//        lvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                Toast.makeText(SearchMusicActivity.this, position + "", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
+    private void initViews() {
+        lvResults = (ListView) findViewById(R.id.main_lv_search_results);
+        searchView = (SearchView) findViewById(R.id.search_text);
+        //设置监听
+        searchView.setSearchViewListener(this);
+        //设置adapter
+        searchView.setTipsHintAdapter(hintAdapter);
+        searchView.setAutoCompleteAdapter(autoCompleteAdapter);
+
+        lvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Toast.makeText(SearchMusicActivity.this, position + "", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     /**
      * 初始化数据
@@ -125,10 +126,10 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
      * 获取db 数据
      */
     private void getDbData() {
-        int size = 100;
+        int size = 20;
         dbData = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
-            dbData.add(new Bean(R.drawable.icon, "android开发必备技能" + (i + 1), "Android自定义view——自定义搜索view", i * 20 + 2 + ""));
+            dbData.add(new Bean("给我一个理由忘记" + (i + 1), "梁静茹"+ (i + 1)));
         }
     }
 
@@ -218,7 +219,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
             //更新搜索数据
             resultAdapter.notifyDataSetChanged();
         }
+        resultData.add(KugouSearchSongsNotTask.sendRequestWithOkHttp(text));
         Toast.makeText(this, "完成搜素", Toast.LENGTH_SHORT).show();
     }
-
 }

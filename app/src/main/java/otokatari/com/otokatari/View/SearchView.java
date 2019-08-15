@@ -18,42 +18,42 @@ public class SearchView extends LinearLayout implements View.OnClickListener {
     /**
      * 输入框
      */
-    private EditText etInput;
+    public EditText etInput;
 
     /**
      * 删除键
      */
-    private ImageView ivDelete;
+    public ImageView ivDelete;
 
     /**
      * 返回按钮
      */
-    private Button btnBack;
+    public Button btnBack;
 
     /**
      * 上下文对象
      */
-    private Context mContext;
+    public Context mContext;
 
     /**
      * 弹出列表
      */
-    private ListView lvTips;
+    public ListView lvTips;
 
     /**
      * 提示adapter （推荐adapter）
      */
-    private ArrayAdapter<String> mHintAdapter;
+    public ArrayAdapter<String> mHintAdapter;
 
     /**
      * 自动补全adapter 只显示名字
      */
-    private ArrayAdapter<String> mAutoCompleteAdapter;
+    public ArrayAdapter<String> mAutoCompleteAdapter;
 
     /**
      * 搜索回调接口
      */
-    private SearchViewListener mListener;
+    public SearchViewListener mListener;
 
     /**
      * 设置搜索回调接口
@@ -111,7 +111,7 @@ public class SearchView extends LinearLayout implements View.OnClickListener {
      * 通知监听者 进行搜索操作
      * @param text
      */
-    private void notifyStartSearching(String text){
+    public void notifyStartSearching(String text){
         if (mListener != null) {
             mListener.onSearch(etInput.getText().toString());
         }
@@ -206,6 +206,5 @@ public class SearchView extends LinearLayout implements View.OnClickListener {
         void onSearch(String text);
 
     }
-
 }
 

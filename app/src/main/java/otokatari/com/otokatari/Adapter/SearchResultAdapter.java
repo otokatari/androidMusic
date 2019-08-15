@@ -18,7 +18,7 @@ import java.util.List;
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder> {
 
     private List<String> data;
-    private Context parentActivityContex;
+    private Context parentActivityContext;
     public void updateAdapter(List<String> data){
         this.data = data;
     }
@@ -65,8 +65,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(parentActivityContex, TempPlayMusicActivity.class);
-                parentActivityContex.startActivity(intent);
+                Intent intent=new Intent(parentActivityContext, TempPlayMusicActivity.class);
+                parentActivityContext.startActivity(intent);
             }
         });
     }
@@ -84,7 +84,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         public SearchResultViewHolder(View itemView, Context context){
             super(itemView);
             title = (TextView)itemView.findViewById(R.id.music_title);
-            parentActivityContex = context;
+            parentActivityContext = context;
         }
     }
 }

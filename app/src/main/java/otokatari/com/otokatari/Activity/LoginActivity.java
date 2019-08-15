@@ -134,7 +134,7 @@ public class LoginActivity extends BaseActivity {
                 }).execute(loginAccountInfo);
             }});
 
-        ClearInValidateUserAccountInfo();
+        //ClearInValidateUserAccountInfo();
         qqImage.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v){

@@ -8,6 +8,7 @@ import android.widget.Button;
 import otokatari.com.otokatari.Adapter.SearchResultAdapter;
 import otokatari.com.otokatari.R;
 import android.os.Bundle;
+import otokatari.com.otokatari.Tasks.KugouSearchSongsNotTask;
 import otokatari.com.otokatari.View.SearchView;
 
 
@@ -21,19 +22,25 @@ public class TempSearchAcitvity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp_search);
-        // init();
+        init();
     }
 
     private void init(){
 
         searchResultList = findViewById(R.id.search_result_list);
         searchKeyWord = findViewById(R.id.search_text);
-
         searchResultList.setLayoutManager(new LinearLayoutManager(this));
         searchResultList.setAdapter(searchResultAdapter = new SearchResultAdapter());
+//        String searchContent=searchKeyWord.etInput.getText().toString();
+//        startSearch(searchContent);
 
     }
 
+//    private void startSearch(String content)
+//    {
+//
+//        updateSearchResult(KugouSearchSongsNotTask.sendRequestWithOkHttp(content));
+//    }
 
     private void updateSearchResult(String data){
 

@@ -1,19 +1,20 @@
 package otokatari.com.otokatari.Tasks;
 
-import com.google.gson.JsonArray;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import otokatari.com.otokatari.Model.s.Bean;
 import otokatari.com.otokatari.User.APIDocs;
+
 import static otokatari.com.otokatari.Utils.AppUtils.GetRequest;
 
 public class KugouSearchSongsNotTask {
-    public void sendRequestWithOkHttp(String keyword) {
+    public static Bean sendRequestWithOkHttp(String keyword) {
         String VariedUrl = APIDocs.fullKugouSearchSongs;
         VariedUrl = VariedUrl + keyword;
-        parseJSONWithJSONObject(GetRequest(VariedUrl));
+        return parseJSONWithJSONObject(GetRequest(VariedUrl));
     }
 
-    public void parseJSONWithJSONObject(String jsonData) {
+    public static Bean parseJSONWithJSONObject(String jsonData) {
         try {
             JSONObject jsonObject = new JSONObject(jsonData);
             JSONArray songs = jsonObject.getJSONObject("data").getJSONArray("lists");
@@ -25,9 +26,12 @@ public class KugouSearchSongsNotTask {
                int Audioid=eachSong.getInt("Audioid");
                JSONArray Grp=eachSong.getJSONArray("Grp");
                String FileHash=Grp.getJSONObject(0).getString("FileHash");
+               return new Bean(songName,FileHash);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 }

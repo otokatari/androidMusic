@@ -14,7 +14,6 @@ import otokatari.com.otokatari.Model.s.RequestInfo.LoginAccountInfo;
 import otokatari.com.otokatari.Service.UserService.UserAccount;
 import otokatari.com.otokatari.Service.UserService.UserService;
 import otokatari.com.otokatari.Tasks.PostQQLoginInfoTask;
-import otokatari.com.otokatari.Utils.AppUtils;
 import otokatari.com.otokatari.Utils.HMACSHA256Utils;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;

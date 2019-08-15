@@ -1,48 +1,29 @@
 package otokatari.com.otokatari.Model.s;
 
 public class Bean {
+    private String songName;
+    private String singer;
 
-    private int iconId;
-    private String title;
-    private String content;
-    private String comments;
-
-    public Bean(int iconId, String title, String content, String comments) {
-        this.iconId = iconId;
-        this.title = title;
-        this.content = content;
-        this.comments = comments;
+    public Bean(String title, String content) {
+        this.songName = title;
+        this.singer = content;
     }
-
-    public int getIconId() {
-        return iconId;
-    }
-
-    public void setIconId(int iconId) {
-        this.iconId = iconId;
-    }
-
     public String getTitle() {
-        return title;
+        return songName;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.songName = title;
     }
 
     public String getContent() {
-        return content;
+        return singer;
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.singer = content;
     }
 
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
 }
+
+
