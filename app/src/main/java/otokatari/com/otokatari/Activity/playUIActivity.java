@@ -45,18 +45,16 @@ public class playUIActivity extends AppCompatActivity implements DiscView.IPlayI
     private TextView mTvMusicDuration,mTvTotalMusicDuration;
     private BackgourndAnimationRelativeLayout mRootLayout;
     public static final int MUSIC_MESSAGE = 0;
-
     public static final String PARAM_MUSIC_LIST = "PARAM_MUSIC_LIST";
 
-    private Handler mMusicHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            mSeekBar.setProgress(mSeekBar.getProgress() + 1000);
-            mTvMusicDuration.setText(duration2Time(mSeekBar.getProgress()));
-            startUpdateSeekBarProgress();
-        }
-    };
+    private Handler mMusicHandler = new Handler(this::MusicHandler);
+
+    private boolean MusicHandler(Message message) {
+        mSeekBar.setProgress(mSeekBar.getProgress() + 1000);
+        mTvMusicDuration.setText(duration2Time(mSeekBar.getProgress()));
+        startUpdateSeekBarProgress();
+        return true;
+    }
 
     private MusicReceiver mMusicReceiver = new MusicReceiver();
     private List<MusicData> mMusicDatas = new ArrayList<>();

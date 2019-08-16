@@ -69,5 +69,4 @@ public class MainActivity extends BaseActivity {
 //            Log.d("MainActivity","gg");
 //    }).execute(loginAccountInfo);
 //   }
-
 }

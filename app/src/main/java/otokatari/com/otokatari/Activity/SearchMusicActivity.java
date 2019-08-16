@@ -2,8 +2,8 @@ package otokatari.com.otokatari.Activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -11,8 +11,9 @@ import android.widget.Toast;
 import otokatari.com.otokatari.Adapter.SearchAdapter;
 import otokatari.com.otokatari.Model.s.Bean;
 import otokatari.com.otokatari.R;
-import otokatari.com.otokatari.Tasks.KugouSearchSongsNotTask;
+import otokatari.com.otokatari.Tasks.KugouSearchSongsTask;
 import otokatari.com.otokatari.View.SearchView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,7 +130,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
         int size = 20;
         dbData = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
-            dbData.add(new Bean("给我一个理由忘记" + (i + 1), "梁静茹"+ (i + 1)));
+            dbData.add(new Bean("给我一个理由忘记" + (i + 1), "梁静茹" + (i + 1)));
         }
     }
 
@@ -193,6 +194,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
 
     /**
      * 当搜索框文本改变时触发的回调 ,更新自动补全数据
+     *
      * @param text
      */
     @Override
@@ -217,9 +219,19 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
             lvResults.setAdapter(resultAdapter);
         } else {
             //更新搜索数据
+
             resultAdapter.notifyDataSetChanged();
         }
-        resultData.add(KugouSearchSongsNotTask.sendRequestWithOkHttp(text));
-        Toast.makeText(this, "完成搜素", Toast.LENGTH_SHORT).show();
+        new KugouSearchSongsTask(TaskRet -> {
+            if (TaskRet != null) {
+                for (int i = 0; i < TaskRet.size(); i++) {
+                    resultData.add(new Bean(TaskRet.get(i).getSongName(), TaskRet.get(i).getFileName()));
+                }
+                Toast.makeText(this, "完成搜素", Toast.LENGTH_SHORT).show();
+            } else
+                Log.d("MainActivity", "gg");
+        }).execute(text);
+
     }
 }
+

@@ -3,12 +3,9 @@ package otokatari.com.otokatari.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Button;
 import otokatari.com.otokatari.Adapter.SearchResultAdapter;
 import otokatari.com.otokatari.R;
 import android.os.Bundle;
-import otokatari.com.otokatari.Tasks.KugouSearchSongsNotTask;
 import otokatari.com.otokatari.View.SearchView;
 
 
@@ -39,7 +36,7 @@ public class TempSearchAcitvity extends AppCompatActivity {
 //    private void startSearch(String content)
 //    {
 //
-//        updateSearchResult(KugouSearchSongsNotTask.sendRequestWithOkHttp(content));
+//        updateSearchResult(KugouSearchSongsTask.sendRequestWithOkHttp(content));
 //    }
 
     private void updateSearchResult(String data){

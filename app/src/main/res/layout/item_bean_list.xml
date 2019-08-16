@@ -9,7 +9,7 @@
         android:layout_marginLeft="10dp"
         android:text="Title"
         android:textSize="18sp"
-        android:textColor="#777"
+        android:textColor="#fff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
@@ -19,7 +19,7 @@
         android:layout_marginRight="50dp"
         android:layout_below="@id/item_search_tv_title"
         android:text="content"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textColor="#fff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
