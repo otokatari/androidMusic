@@ -221,6 +221,7 @@ public class LoginActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Tencent.onActivityResultData(requestCode, resultCode, data, mListener);
     }
+
 /****************************************************Animation********************************************************/
 
     private void startAnimation(){

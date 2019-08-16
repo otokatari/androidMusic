@@ -142,9 +142,9 @@ public class playUIActivity extends AppCompatActivity implements DiscView.IPlayI
     }
 
     private void initMusicDatas() {
-        MusicData musicData1 = new MusicData(R.raw.ic_music1,R.raw.ic_music1, "寻", "三亩地");
-        MusicData musicData2 = new MusicData(R.raw.ic_music2, R.raw.ic_music2, "Nightingale", "YANI");
-        MusicData musicData3 = new MusicData(R.raw.ic_music3, R.raw.ic_music3, "Cornfield Chase", "Hans Zimmer");
+        MusicData musicData1 = new MusicData("music1.mp3",R.raw.ic_music1, "寻", "三亩地");
+        MusicData musicData2 = new MusicData("music2.mp3", R.raw.ic_music2, "Nightingale", "YANI");
+        MusicData musicData3 = new MusicData("music3.mp3", R.raw.ic_music3, "Cornfield Chase", "Hans Zimmer");
 
         mMusicDatas.add(musicData1);
         mMusicDatas.add(musicData2);
