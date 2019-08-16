@@ -2,10 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="otokatari.com.otokatari">
 
-    <uses-permission-sdk-23 android:name="android.permission.ACCESS_NETWORK_STATE">
-    </uses-permission-sdk-23>
-    <uses-permission-sdk-23 android:name="android.permission.INTERNET">
-    </uses-permission-sdk-23>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
     <application
             android:name=".Application.otokatariAndroidApplication"
@@ -18,7 +24,10 @@
         <activity
                 android:name=".Activity.playUIActivity"
                 android:theme="@style/AppDarkBackground.NoActionBar">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <service
@@ -60,14 +69,12 @@
 
         </activity>
         <activity android:name=".Activity.playMusicActivity">
+
         </activity>
         <activity
                 android:name=".Activity.LoginActivity"
                 android:theme="@style/AppDarkBackground.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+
         </activity>
         <activity
                 android:name=".Activity.TempSearchAcitvity"

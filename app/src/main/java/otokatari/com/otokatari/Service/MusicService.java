@@ -5,11 +5,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import otokatari.com.otokatari.Activity.playUIActivity;
 import otokatari.com.otokatari.Model.s.MusicData;
+import otokatari.com.otokatari.R;
+import otokatari.com.otokatari.Utils.AppUtils;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,14 +95,19 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
             mMediaPlayer.start();
         } else {
             mMediaPlayer.stop();
-            mMediaPlayer = null;
+            mMediaPlayer.reset();
+            try {
+                AssetFileDescriptor afd = getAssets().openFd(mMusicDatas.get(index).getFileName());
+                mMediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                mMediaPlayer.prepare();
+                mMediaPlayer.start();
+                mMediaPlayer.setOnCompletionListener(this);
+                mCurrentMusicIndex = index;
+                mIsMusicPause = false;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-            mMediaPlayer = MediaPlayer.create(getApplicationContext(), mMusicDatas.get(index)
-                    .getMusicRes());
-            mMediaPlayer.start();
-            mMediaPlayer.setOnCompletionListener(this);
-            mCurrentMusicIndex = index;
-            mIsMusicPause = false;
 
             int duration = mMediaPlayer.getDuration();
             sendMusicDurationBroadCast(duration);
