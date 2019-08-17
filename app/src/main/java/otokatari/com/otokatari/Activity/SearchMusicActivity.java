@@ -13,7 +13,6 @@ import otokatari.com.otokatari.Model.s.Bean;
 import otokatari.com.otokatari.R;
 import otokatari.com.otokatari.Tasks.KugouSearchSongsTask;
 import otokatari.com.otokatari.View.SearchView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,6 +99,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
         //设置adapter
         searchView.setTipsHintAdapter(hintAdapter);
         searchView.setAutoCompleteAdapter(autoCompleteAdapter);
+
 
         lvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -201,6 +201,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     public void onRefreshAutoComplete(String text) {
         //更新数据
         getAutoCompleteData(text);
+
     }
 
     /**
@@ -210,18 +211,6 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
      */
     @Override
     public void onSearch(String text) {
-        //更新result数据
-        getResultData(text);
-        lvResults.setVisibility(View.VISIBLE);
-        //第一次获取结果 还未配置适配器
-        if (lvResults.getAdapter() == null) {
-            //获取搜索数据 设置适配器
-            lvResults.setAdapter(resultAdapter);
-        } else {
-            //更新搜索数据
-
-            resultAdapter.notifyDataSetChanged();
-        }
         new KugouSearchSongsTask(TaskRet -> {
             if (TaskRet != null) {
                 for (int i = 0; i < TaskRet.size(); i++) {
@@ -231,7 +220,18 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
             } else
                 Log.d("MainActivity", "gg");
         }).execute(text);
-
+        //更新result数据
+        getResultData(text);
+        lvResults.setVisibility(View.VISIBLE);
+        //第一次获取结果 还未配置适配器
+        if (lvResults.getAdapter() == null) {
+            //获取搜索数据 设置适配器
+            lvResults.setAdapter(resultAdapter);
+        } else {
+            //更新搜索数据
+            resultAdapter.notifyDataSetChanged();
+        }
     }
+
 }
 

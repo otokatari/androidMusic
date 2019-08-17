@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by AchillesL on 2016/11/15.
+ * Created by AchillesL on 2016/a/15.
  */
 
 public class DiscView extends RelativeLayout {

@@ -5,33 +5,134 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Activity.MainActivity">
+        tools:context=".Activity.MainActivity" android:id="@+id/eyeryday_advice">
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
-    <android.support.v7.widget.Toolbar
-            app:title=" "
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:contentInsetStart="0dp"
-            android:background="@color/colorPrimary">
+            android:id="@+id/appbar"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+        <android.support.v7.widget.Toolbar
+                app:title=" "
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:contentInsetStart="0dp"
+                android:background="@color/colorPrimary">
 
-        <de.hdodenhof.circleimageview.CircleImageView android:layout_width="40dp"
-                                                      android:layout_height="40dp"
-                                                      android:src="@drawable/default_picture"
-                                                      android:layout_gravity="start"
-                                                      android:id="@+id/ToolbarUserAvatar"/>
-        <Button
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:id="@+id/search"
-                android:background="?android:attr/actionModeWebSearchDrawable"
-                android:layout_gravity="end"
-              />
-    </android.support.v7.widget.Toolbar>
-</android.support.design.widget.AppBarLayout>
+            <de.hdodenhof.circleimageview.CircleImageView android:layout_width="40dp"
+                                                          android:layout_height="40dp"
+                                                          android:src="@drawable/default_picture"
+                                                          android:layout_gravity="start"
+                                                          android:id="@+id/ToolbarUserAvatar"/>
+            <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/search"
+                    android:background="?android:attr/actionModeWebSearchDrawable"
+                    android:layout_gravity="end"
+            />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView android:layout_width="40dp"
+                                                  android:layout_height="40dp"
+                                                  android:src="@drawable/a"
+                                                  android:layout_gravity="start"
+                                                  android:id="@+id/everydayAdvise"
+                                                  android:layout_marginTop="40dp"
+                                                  app:layout_constraintTop_toBottomOf="@+id/appbar"
+                                                  app:layout_constraintStart_toStartOf="parent"
+                                                  android:layout_marginStart="40dp"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView android:layout_width="40dp"
+                                                  android:layout_height="40dp"
+                                                  android:src="@drawable/b"
+                                                  android:layout_gravity="start"
+                                                  android:id="@+id/songsList"
+                                                  android:layout_marginTop="40dp"
+                                                  app:layout_constraintTop_toBottomOf="@+id/appbar"
+                                                  android:layout_marginStart="40dp"
+                                                  app:layout_constraintStart_toEndOf="@+id/everydayAdvise"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView android:layout_width="40dp"
+                                                  android:layout_height="40dp"
+                                                  android:src="@drawable/c"
+                                                  android:layout_gravity="start"
+                                                  android:id="@+id/diantai"
+                                                  android:layout_marginTop="40dp"
+                                                  app:layout_constraintTop_toBottomOf="@+id/appbar"
+                                                  android:layout_marginStart="40dp"
+                                                  app:layout_constraintStart_toEndOf="@+id/songsList"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView android:layout_width="40dp"
+                                                  android:layout_height="40dp"
+                                                  android:src="@drawable/d"
+                                                  android:layout_gravity="start"
+                                                  android:id="@+id/paihangbang"
+                                                  android:layout_marginTop="40dp"
+                                                  app:layout_constraintTop_toBottomOf="@+id/appbar"
+                                                  android:layout_marginEnd="40dp"
+                                                  app:layout_constraintEnd_toEndOf="parent"
+                                                  app:layout_constraintStart_toEndOf="@+id/diantai"
+                                                  android:layout_marginStart="40dp"/>
+    <TextView
+            android:text="每日推荐"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/everydayAdvise"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="32dp"/>
+    <TextView
+            android:text="排行榜"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/songsList"
+            app:layout_constraintStart_toEndOf="@+id/textView2"
+            android:layout_marginStart="32dp"/>
+    <TextView
+            android:text="电台"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView4"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/diantai"
+            app:layout_constraintStart_toEndOf="@+id/textView3"
+            android:layout_marginStart="43dp"/>
+    <TextView
+            android:text="歌单"
+            android:layout_width="28dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5"
+            android:layout_marginEnd="48dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/paihangbang"/>
+    <ImageView
+            android:layout_width="170dp"
+            android:layout_height="140dp" app:srcCompat="@drawable/chen"
+            android:id="@+id/imageView11" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView13"/>
+    <ImageView
+            android:layout_width="170dp"
+            android:layout_height="140dp" app:srcCompat="@drawable/li"
+            android:id="@+id/imageView12" app:layout_constraintStart_toEndOf="@+id/imageView11"
+            android:layout_marginStart="24dp" android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView14"/>
+    <ImageView
+            android:layout_width="170dp"
+            android:layout_height="140dp" app:srcCompat="@drawable/xue"
+            android:id="@+id/imageView13" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="32dp"/>
+    <ImageView
+            android:layout_width="170dp"
+            android:layout_height="140dp" app:srcCompat="@drawable/zhou"
+            android:id="@+id/imageView14" app:layout_constraintStart_toEndOf="@+id/imageView13"
+            android:layout_marginStart="24dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="32dp"/>
 
 
 </android.support.constraint.ConstraintLayout>

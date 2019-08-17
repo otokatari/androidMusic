@@ -24,10 +24,7 @@
         <activity
                 android:name=".Activity.playUIActivity"
                 android:theme="@style/AppDarkBackground.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+
         </activity>
 
         <service
@@ -74,7 +71,10 @@
         <activity
                 android:name=".Activity.LoginActivity"
                 android:theme="@style/AppDarkBackground.NoActionBar">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity
                 android:name=".Activity.TempSearchAcitvity"
