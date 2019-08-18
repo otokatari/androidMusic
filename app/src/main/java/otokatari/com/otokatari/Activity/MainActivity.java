@@ -31,7 +31,7 @@ public class MainActivity extends BaseActivity {
     private void init() {
         Button search = findViewById(R.id.search);
         CircleImageView ToolbarUserAvatar = findViewById(R.id.ToolbarUserAvatar);
-
+        CircleImageView localMusic=findViewById(R.id.localMusic);
         UserAccount ua = otokatariAndroidApplication.getUserService().getUserAccount();
         if (ua != null) {
             //String NickName = ua.getNickname();
@@ -46,6 +46,14 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 //temporary
                 Intent intent = new Intent(MainActivity.this, SearchMusicActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        localMusic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, playUIActivity.class);
                 startActivity(intent);
             }
         });

@@ -140,13 +140,15 @@ public class playUIActivity extends AppCompatActivity implements DiscView.IPlayI
     }
 
     private void initMusicDatas() {
-        MusicData musicData1 = new MusicData("music1.mp3",R.raw.ic_music1, "寻", "三亩地");
-        MusicData musicData2 = new MusicData("music2.mp3", R.raw.ic_music2, "Nightingale", "YANI");
-        MusicData musicData3 = new MusicData("music3.mp3", R.raw.ic_music3, "Cornfield Chase", "Hans Zimmer");
+//
+        MusicData musicData1=new MusicData("薛之谦 - 慢半拍.mp3",R.raw.xue,"慢半拍","薛之谦");
+        MusicData musicData2=new MusicData("李荣浩 - 老街.mp3",R.raw.li,"老街","李荣浩");
+        MusicData musicData3 = new MusicData("双笙 - 月出.mp3", R.raw.ssheng, "月出", "双笙");
 
         mMusicDatas.add(musicData1);
         mMusicDatas.add(musicData2);
         mMusicDatas.add(musicData3);
+//
 
         Intent intent = new Intent(this, MusicService.class);
         intent.putExtra(PARAM_MUSIC_LIST, (Serializable) mMusicDatas);

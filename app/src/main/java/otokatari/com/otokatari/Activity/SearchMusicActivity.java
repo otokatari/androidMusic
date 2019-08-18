@@ -100,13 +100,13 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
         searchView.setTipsHintAdapter(hintAdapter);
         searchView.setAutoCompleteAdapter(autoCompleteAdapter);
 
-
-        lvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Toast.makeText(SearchMusicActivity.this, position + "", Toast.LENGTH_SHORT).show();
-            }
-        });
+//
+//        lvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+//                Toast.makeText(SearchMusicActivity.this, position + "", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     /**
@@ -232,6 +232,5 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
             resultAdapter.notifyDataSetChanged();
         }
     }
-
 }
 

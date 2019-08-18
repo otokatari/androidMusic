@@ -47,7 +47,7 @@
                                                   android:layout_height="40dp"
                                                   android:src="@drawable/b"
                                                   android:layout_gravity="start"
-                                                  android:id="@+id/songsList"
+                                                  android:id="@+id/rangkingList"
                                                   android:layout_marginTop="40dp"
                                                   app:layout_constraintTop_toBottomOf="@+id/appbar"
                                                   android:layout_marginStart="40dp"
@@ -61,13 +61,13 @@
                                                   android:layout_marginTop="40dp"
                                                   app:layout_constraintTop_toBottomOf="@+id/appbar"
                                                   android:layout_marginStart="40dp"
-                                                  app:layout_constraintStart_toEndOf="@+id/songsList"/>
+                                                  app:layout_constraintStart_toEndOf="@+id/rangkingList"/>
 
     <de.hdodenhof.circleimageview.CircleImageView android:layout_width="40dp"
                                                   android:layout_height="40dp"
                                                   android:src="@drawable/d"
                                                   android:layout_gravity="start"
-                                                  android:id="@+id/paihangbang"
+                                                  android:id="@+id/localMusic"
                                                   android:layout_marginTop="40dp"
                                                   app:layout_constraintTop_toBottomOf="@+id/appbar"
                                                   android:layout_marginEnd="40dp"
@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/textView3"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/songsList"
+            app:layout_constraintTop_toBottomOf="@+id/rangkingList"
             app:layout_constraintStart_toEndOf="@+id/textView2"
             android:layout_marginStart="32dp"/>
     <TextView
@@ -102,13 +102,14 @@
             app:layout_constraintStart_toEndOf="@+id/textView3"
             android:layout_marginStart="43dp"/>
     <TextView
-            android:text="歌单"
-            android:layout_width="28dp"
+            android:text="本地音乐"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView5"
-            android:layout_marginEnd="48dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/paihangbang"/>
+            android:layout_marginEnd="35dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/localMusic"/>
     <ImageView
             android:layout_width="170dp"
             android:layout_height="140dp" app:srcCompat="@drawable/chen"
@@ -133,6 +134,13 @@
             android:id="@+id/imageView14" app:layout_constraintStart_toEndOf="@+id/imageView13"
             android:layout_marginStart="24dp" app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="32dp"/>
+    <TextView
+            android:text="推荐歌单"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView6" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView11"/>
 
 
 </android.support.constraint.ConstraintLayout>
