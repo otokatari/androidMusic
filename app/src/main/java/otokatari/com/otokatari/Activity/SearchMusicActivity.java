@@ -67,7 +67,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     /**
      * 搜索结果的数据
      */
-    private List<Bean> resultData;
+    public static List<Bean> resultData;
 
     /**
      * 默认提示框显示项的个数
@@ -232,8 +232,14 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
         new GetKugouDownloadAddressTask(TaskRet -> {
             if (TaskRet != null) {
                 String play_url=TaskRet.getPlay_url();
+                String img=TaskRet.getImg();
+                String author_name=TaskRet.getAuthor_name();
+                String song_name=TaskRet.getSong_name();
                 Intent intent=new Intent(SearchMusicActivity.this,playUIActivity.class);
                 intent.putExtra("play_url",play_url);
+                intent.putExtra("song_name",song_name);
+                intent.putExtra("img",img);
+                intent.putExtra("author_name",author_name);
                 startActivity(intent);
             } else
                 Log.d("MainActivity", "gg");

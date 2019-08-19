@@ -13,6 +13,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import otokatari.com.otokatari.R;
 
+import static otokatari.com.otokatari.Activity.SearchMusicActivity.resultData;
+
 public class SearchView extends LinearLayout implements View.OnClickListener {
 
     /**
@@ -157,6 +159,7 @@ public class SearchView extends LinearLayout implements View.OnClickListener {
                 }
             } else {
                 ivDelete.setVisibility(GONE);
+                resultData.clear();
                 if (mHintAdapter != null) {
                     lvTips.setAdapter(mHintAdapter);
                 }
@@ -178,6 +181,7 @@ public class SearchView extends LinearLayout implements View.OnClickListener {
                 break;
             case R.id.search_iv_delete:
                 etInput.setText("");
+                resultData.clear();
                 ivDelete.setVisibility(GONE);
                 break;
             case R.id.search_btn_back:

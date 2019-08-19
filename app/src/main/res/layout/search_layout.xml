@@ -38,7 +38,7 @@
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:textColor="@color/darkBackground"
-                    android:hint="请输入关键字" android:singleLine="true"/>
+                    android:singleLine="true"/>
 
             <ImageView
                     android:visibility="gone"

@@ -10,7 +10,6 @@ import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import otokatari.com.otokatari.Activity.playUIActivity;
 import otokatari.com.otokatari.Model.s.MusicData;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

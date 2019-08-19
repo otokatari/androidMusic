@@ -45,8 +45,11 @@ public KugouGetDownloadAddResponse parseJSONWithJSONObject(String jsonData) {
         JSONObject songs = jsonObject.getJSONObject("data");
         String lyrics=songs.getString("lyrics");
         String play_url=songs.getString("play_url");
+        String img=songs.getString("img");
+        String song_name=songs.getString("song_name");
+        String author_name=songs.getString("author_name");
 
-        KugouGetDownloadAddResponse kugouGetDownloadAddResponse=new KugouGetDownloadAddResponse(play_url,lyrics);
+        KugouGetDownloadAddResponse kugouGetDownloadAddResponse=new KugouGetDownloadAddResponse(play_url,lyrics,img,author_name,song_name);
 
         return  kugouGetDownloadAddResponse;
 

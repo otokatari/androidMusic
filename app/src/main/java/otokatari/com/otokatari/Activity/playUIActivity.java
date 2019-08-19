@@ -40,7 +40,7 @@ public class playUIActivity extends AppCompatActivity implements DiscView.IPlayI
 
     private DiscView mDisc;
     private Toolbar mToolbar;
-    public static String play_url;
+    public static String play_url,img,song_name,author_name;
     private SeekBar mSeekBar;
     private ImageView mIvPlayOrPause, mIvNext, mIvLast;
     private TextView mTvMusicDuration,mTvTotalMusicDuration;
@@ -66,7 +66,11 @@ public class playUIActivity extends AppCompatActivity implements DiscView.IPlayI
         setContentView(R.layout.activity_play_ui);
         Intent intent=getIntent();
         play_url=intent.getStringExtra("play_url");
-        initMusicDatas(play_url);
+        img=intent.getStringExtra("img");
+        song_name=intent.getStringExtra("song_name");
+        author_name=intent.getStringExtra("author_name");
+
+        initMusicDatas(play_url,song_name,author_name);
         initView();
         initMusicReceiver();
         makeStatusBarTransparent();
@@ -142,9 +146,9 @@ public class playUIActivity extends AppCompatActivity implements DiscView.IPlayI
         }
     }
 
-    private void initMusicDatas(String play_url) {
+    private void initMusicDatas(String play_url,String song_name,String author_name) {
 //
-        MusicData musicData1=new MusicData(play_url,R.raw.xue,"慢半拍","薛之谦");
+        MusicData musicData1=new MusicData(play_url,R.drawable.xue,song_name,author_name);
 //        MusicData musicData2=new MusicData("李荣浩 - 老街.mp3",R.raw.li,"老街","李荣浩");
 //        MusicData musicData3 = new MusicData("双笙 - 月出.mp3", R.raw.ssheng, "月出", "双笙");
 
