@@ -17,6 +17,7 @@ import static otokatari.com.otokatari.Activity.SearchMusicActivity.resultData;
 
 public class SearchView extends LinearLayout implements View.OnClickListener {
 
+    public static CharSequence text;
     /**
      * 输入框
      */
@@ -142,7 +143,7 @@ public class SearchView extends LinearLayout implements View.OnClickListener {
     private class EditChangedListener implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
+                text=charSequence;
         }
 
         @Override
@@ -153,10 +154,10 @@ public class SearchView extends LinearLayout implements View.OnClickListener {
                 if (mAutoCompleteAdapter != null && lvTips.getAdapter() != mAutoCompleteAdapter) {
                     lvTips.setAdapter(mAutoCompleteAdapter);
                 }
-                //更新autoComplete数据
-                if (mListener != null) {
-                    mListener.onRefreshAutoComplete(charSequence + "");
-                }
+//                //更新autoComplete数据
+//                if (mListener != null) {
+//                    mListener.onRefreshAutoComplete(charSequence + "");
+//                }
             } else {
                 ivDelete.setVisibility(GONE);
                 resultData.clear();

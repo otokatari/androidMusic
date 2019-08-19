@@ -215,12 +215,13 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     public void onSearch(String text) {
         new KugouSearchSongsTask(TaskRet -> {
             if (TaskRet != null) {
+                resultData.clear();
                 for (int i = 0; i < TaskRet.size(); i++) {
                     resultData.add(new Bean(TaskRet.get(i).getSongName(), TaskRet.get(i).getFileName(),TaskRet.get(i).getFileHash()));
                 }
                 getResultData();
             } else
-                Log.d("MainActivity", "gg");
+                Log.d("SearchMusicActivity", "gg");
         }).execute(text);
         if(lvResults.getVisibility() == View.GONE){
             lvResults.setVisibility(View.VISIBLE);
@@ -242,7 +243,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
                 intent.putExtra("author_name",author_name);
                 startActivity(intent);
             } else
-                Log.d("MainActivity", "gg");
+                Log.d("SearchMusicActivity", "gg");
         }).execute(HashFile);
     }
 }
