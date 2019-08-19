@@ -22,6 +22,7 @@ import otokatari.com.otokatari.Application.otokatariAndroidApplication;
 import otokatari.com.otokatari.Model.s.RequestInfo.LoginAccountInfo;
 import otokatari.com.otokatari.Persistence.DateBaseHelper;
 import otokatari.com.otokatari.R;
+import otokatari.com.otokatari.Service.Common.ActivityCollector;
 import otokatari.com.otokatari.Service.QQAuth.QQAuthCredentials;
 import otokatari.com.otokatari.Tasks.PostLoginInfoTask;
 import otokatari.com.otokatari.Utils.Animation;
@@ -50,6 +51,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         init();
+        ActivityCollector.addAvtivity(this);
     }
     private void init()
     {

@@ -13,6 +13,7 @@ import otokatari.com.otokatari.Adapter.SearchAdapter;
 import otokatari.com.otokatari.Model.s.Bean;
 import otokatari.com.otokatari.Model.s.Response.KugouGetDownloadAddResponse;
 import otokatari.com.otokatari.R;
+import otokatari.com.otokatari.Service.Common.ActivityCollector;
 import otokatari.com.otokatari.Tasks.GetKugouDownloadAddressTask;
 import otokatari.com.otokatari.Tasks.KugouSearchSongsTask;
 import otokatari.com.otokatari.View.SearchView;
@@ -92,6 +93,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_search_music);
+        ActivityCollector.addAvtivity(this);
         initViews();
         initData();
     }
@@ -135,10 +137,9 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
      * 获取db 数据
      */
     private void getDbData() {
-        int size = 20;
+        int size = 50;
         dbData = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
-
            // dbData.add(new Bean("给我一个理由忘记" + (i + 1), "梁静茹" + (i + 1)));
         }
     }

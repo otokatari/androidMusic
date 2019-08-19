@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 import otokatari.com.otokatari.Model.s.MusicData;
 import otokatari.com.otokatari.R;
+import otokatari.com.otokatari.Service.Common.ActivityCollector;
 import otokatari.com.otokatari.Service.MusicService;
 import otokatari.com.otokatari.Utils.DisplayUtil;
 import otokatari.com.otokatari.Utils.FastBlurUtil;
@@ -38,8 +39,8 @@ import static otokatari.com.otokatari.View.DiscView.DURATION_NEEDLE_ANIAMTOR;
 public class playUIActivity extends AppCompatActivity implements DiscView.IPlayInfo, View
         .OnClickListener {
 
-    private DiscView mDisc;
-    private Toolbar mToolbar;
+    private DiscView mDisc; //唱盘布局
+    private Toolbar mToolbar; //标题，包括歌手、歌名
     public static String play_url,img,song_name,author_name;
     private SeekBar mSeekBar;
     private ImageView mIvPlayOrPause, mIvNext, mIvLast;
@@ -64,6 +65,7 @@ public class playUIActivity extends AppCompatActivity implements DiscView.IPlayI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_ui);
+        ActivityCollector.addAvtivity(this);
         Intent intent=getIntent();
         play_url=intent.getStringExtra("play_url");
         img=intent.getStringExtra("img");

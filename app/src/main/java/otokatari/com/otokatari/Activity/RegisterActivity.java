@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import otokatari.com.otokatari.Model.s.RequestInfo.LoginAccountInfo;
 import otokatari.com.otokatari.R;
+import otokatari.com.otokatari.Service.Common.ActivityCollector;
 import otokatari.com.otokatari.Tasks.PostRegisterInfoTask;
 import static otokatari.com.otokatari.Utils.AppUtils.isPhoneNum;
 
@@ -22,6 +23,7 @@ public class RegisterActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ActivityCollector.addAvtivity(this);
         registerButton=(Button)findViewById(R.id.registerPageButton);
 
         registerButton.setOnClickListener(new View.OnClickListener() {

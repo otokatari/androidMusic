@@ -17,6 +17,7 @@ import com.jakewharton.rxbinding.widget.RxCompoundButton;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import otokatari.com.otokatari.Application.otokatariAndroidApplication;
 import otokatari.com.otokatari.R;
+import otokatari.com.otokatari.Service.Common.ActivityCollector;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.observers.Observers;
@@ -33,6 +34,7 @@ public class playMusicActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_music);
+        ActivityCollector.addAvtivity(this);
         play = (Button) findViewById(R.id.button1);
         Button pause = (Button) findViewById(R.id.button2);
         Button stop = (Button) findViewById(R.id.button3);

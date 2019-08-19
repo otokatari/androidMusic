@@ -29,10 +29,6 @@ import otokatari.com.otokatari.Utils.DisplayUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by AchillesL on 2016/a/15.
- */
-
 public class DiscView extends RelativeLayout {
 
     private ImageView mIvNeedle;
