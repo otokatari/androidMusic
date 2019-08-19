@@ -10,7 +10,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 import otokatari.com.otokatari.Adapter.SearchAdapter;
 import otokatari.com.otokatari.Model.s.Bean;
+import otokatari.com.otokatari.Model.s.Response.KugouGetDownloadAddResponse;
 import otokatari.com.otokatari.R;
+import otokatari.com.otokatari.Tasks.GetKugouDownloadAddressTask;
 import otokatari.com.otokatari.Tasks.KugouSearchSongsTask;
 import otokatari.com.otokatari.View.SearchView;
 import java.util.ArrayList;
@@ -100,13 +102,16 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
         searchView.setTipsHintAdapter(hintAdapter);
         searchView.setAutoCompleteAdapter(autoCompleteAdapter);
 
-//
-//        lvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                Toast.makeText(SearchMusicActivity.this, position + "", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+
+        lvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Bean bean=resultData.get(position);
+                Toast.makeText(SearchMusicActivity.this, bean.getFileHash(), Toast.LENGTH_SHORT).show();
+                searchDownloadAddress(bean.getFileHash());
+
+            }
+        });
     }
 
     /**
@@ -130,7 +135,6 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
         int size = 20;
         dbData = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
-            dbData.add(new Bean("给我一个理由忘记" + (i + 1), "梁静茹" + (i + 1)));
         }
     }
 
@@ -140,7 +144,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     private void getHintData() {
         hintData = new ArrayList<>(hintSize);
         for (int i = 1; i <= hintSize; i++) {
-            hintData.add("热搜版" + i + "：Android自定义View");
+           // hintData.add("热搜版" + i + "：Android自定义View");
         }
         hintAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, hintData);
     }
@@ -214,7 +218,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
         new KugouSearchSongsTask(TaskRet -> {
             if (TaskRet != null) {
                 for (int i = 0; i < TaskRet.size(); i++) {
-                    resultData.add(new Bean(TaskRet.get(i).getSongName(), TaskRet.get(i).getFileName()));
+                    resultData.add(new Bean(TaskRet.get(i).getSongName(), TaskRet.get(i).getFileName(),TaskRet.get(i).getFileHash()));
                 }
                 Toast.makeText(this, "完成搜素", Toast.LENGTH_SHORT).show();
             } else
@@ -231,6 +235,16 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
             //更新搜索数据
             resultAdapter.notifyDataSetChanged();
         }
+    }
+
+    public void searchDownloadAddress(String HashFile)
+    {
+        new GetKugouDownloadAddressTask(TaskRet -> {
+            if (TaskRet != null) {
+                Toast.makeText(this, TaskRet.getPlay_url(), Toast.LENGTH_SHORT).show();
+            } else
+                Log.d("MainActivity", "gg");
+        }).execute(HashFile);
     }
 }
 
