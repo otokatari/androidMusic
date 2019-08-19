@@ -22,12 +22,17 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import otokatari.com.otokatari.Application.otokatariAndroidApplication;
 import otokatari.com.otokatari.Model.s.MusicData;
 import otokatari.com.otokatari.R;
 import otokatari.com.otokatari.Utils.DisplayUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class DiscView extends RelativeLayout {
 
@@ -313,13 +318,34 @@ public class DiscView extends RelativeLayout {
      * 得到唱盘图片
      * 唱盘图片由空心圆盘及音乐专辑图片“合成”得到
      */
-    private Drawable getDiscDrawable(int musicPicRes) {
+    private Drawable getDiscDrawable(String musicPicResUrl) {
         int discSize = (int) (mScreenWidth * DisplayUtil.SCALE_DISC_SIZE);
         int musicPicSize = (int) (mScreenWidth * DisplayUtil.SCALE_MUSIC_PIC_SIZE);
 
         Bitmap bitmapDisc = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R
                 .drawable.ic_disc), discSize, discSize, false);
-        Bitmap bitmapMusicPic = getMusicPicBitmap(musicPicSize,musicPicRes);
+
+//        Bitmap bitmapMusicPic = getMusicPicBitmap(musicPicSize,musicPicRes);
+
+        Bitmap bitmapMusicPic = null;
+        try
+        {
+
+            bitmapMusicPic = Glide.with(otokatariAndroidApplication.getContext())
+                    .load(musicPicResUrl)
+                    .asBitmap()
+                    .centerCrop()
+                    .into(musicPicSize,musicPicSize)
+                    .get();
+
+        } catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        } catch (ExecutionException e)
+        {
+            e.printStackTrace();
+        }
+
         BitmapDrawable discDrawable = new BitmapDrawable(bitmapDisc);
         RoundedBitmapDrawable roundMusicDrawable = RoundedBitmapDrawableFactory.create
                 (getResources(), bitmapMusicPic);
@@ -342,27 +368,30 @@ public class DiscView extends RelativeLayout {
         return layerDrawable;
     }
 
-    private Bitmap getMusicPicBitmap(int musicPicSize, int musicPicRes) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-
-        BitmapFactory.decodeResource(getResources(),musicPicRes,options);
-        int imageWidth = options.outWidth;
-
-        int sample = imageWidth / musicPicSize;
-        int dstSample = 1;
-        if (sample > dstSample) {
-            dstSample = sample;
-        }
-        options.inJustDecodeBounds = false;
-        //设置图片采样率
-        options.inSampleSize = dstSample;
-        //设置图片解码格式
-        options.inPreferredConfig = Bitmap.Config.RGB_565;
-
-        return Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),
-                musicPicRes, options), musicPicSize, musicPicSize, true);
-    }
+//    private Bitmap getMusicPicBitmap(int musicPicSize, String musicPicUrl) {
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inJustDecodeBounds = true;
+//
+////        BitmapFactory.decodeResource(getResources(),musicPicRes,options);
+//        int imageWidth = options.outWidth;
+//
+//        int sample = imageWidth / musicPicSize;
+//        int dstSample = 1;
+//        if (sample > dstSample) {
+//            dstSample = sample;
+//        }
+//        options.inJustDecodeBounds = false;
+//        //设置图片采样率
+//        options.inSampleSize = dstSample;
+//        //设置图片解码格式
+//        options.inPreferredConfig = Bitmap.Config.RGB_565;
+////        BitmapFactory.decodeResource(getResources(),
+////                musicPicRes, options);
+//
+//
+//
+//        return Bitmap.createScaledBitmap(, musicPicSize, musicPicSize, true);
+//    }
 
     public void setMusicDataList(List<MusicData> musicDataList) {
         if (musicDataList.isEmpty()) return;
@@ -378,6 +407,7 @@ public class DiscView extends RelativeLayout {
                     mVpContain, false);
 
             ImageView disc = (ImageView) discLayout.findViewById(R.id.ivDisc);
+            // Here should pass url.
             disc.setImageDrawable(getDiscDrawable(musicData.getMusicPicRes()));
 
             mDiscAnimators.add(getDiscObjectAnimator(disc, i++));
