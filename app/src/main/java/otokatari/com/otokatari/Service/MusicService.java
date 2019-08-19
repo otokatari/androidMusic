@@ -5,19 +5,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import otokatari.com.otokatari.Activity.playUIActivity;
 import otokatari.com.otokatari.Model.s.MusicData;
-import otokatari.com.otokatari.R;
-import otokatari.com.otokatari.Utils.AppUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static otokatari.com.otokatari.Activity.playUIActivity.play_url;
 
 public class MusicService extends Service implements MediaPlayer.OnCompletionListener {
 
@@ -97,8 +95,9 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
             mMediaPlayer.stop();
             mMediaPlayer.reset();
             try {
-                AssetFileDescriptor afd = getAssets().openFd(mMusicDatas.get(index).getFileName());
-                mMediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+//                AssetFileDescriptor afd = getAssets().openFd(mMusicDatas.get(index).getFileName());
+//                mMediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                mMediaPlayer.setDataSource(play_url);
                 mMediaPlayer.prepare();
                 mMediaPlayer.start();
                 mMediaPlayer.setOnCompletionListener(this);

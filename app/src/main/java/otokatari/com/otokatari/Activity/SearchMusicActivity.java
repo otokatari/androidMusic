@@ -1,6 +1,7 @@
 package otokatari.com.otokatari.Activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,8 @@ import otokatari.com.otokatari.R;
 import otokatari.com.otokatari.Tasks.GetKugouDownloadAddressTask;
 import otokatari.com.otokatari.Tasks.KugouSearchSongsTask;
 import otokatari.com.otokatari.View.SearchView;
+
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,7 +110,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Bean bean=resultData.get(position);
-                Toast.makeText(SearchMusicActivity.this, bean.getFileHash(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SearchMusicActivity.this, bean.getFileHash(), Toast.LENGTH_SHORT).show();
                 searchDownloadAddress(bean.getFileHash());
 
             }
@@ -228,7 +231,10 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     {
         new GetKugouDownloadAddressTask(TaskRet -> {
             if (TaskRet != null) {
-                Toast.makeText(this, TaskRet.getPlay_url(), Toast.LENGTH_SHORT).show();
+                String play_url=TaskRet.getPlay_url();
+                Intent intent=new Intent(SearchMusicActivity.this,playUIActivity.class);
+                intent.putExtra("play_url",play_url);
+                startActivity(intent);
             } else
                 Log.d("MainActivity", "gg");
         }).execute(HashFile);

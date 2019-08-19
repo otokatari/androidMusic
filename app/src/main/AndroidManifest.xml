@@ -76,13 +76,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-                android:name=".Activity.TempSearchAcitvity"
-                android:theme="@style/AppDarkBackground.NoActionBar">
-        </activity>
-        <activity android:name=".Activity.TempPlayMusicActivity"
-                  android:theme="@style/AppDarkBackground.NoActionBar">
-        </activity>
     </application>
 
 </manifest>

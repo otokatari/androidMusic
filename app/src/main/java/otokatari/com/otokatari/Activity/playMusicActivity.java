@@ -1,6 +1,7 @@
 package otokatari.com.otokatari.Activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.support.v4.app.ActivityCompat;
@@ -27,6 +28,7 @@ public class playMusicActivity extends BaseActivity implements View.OnClickListe
     private boolean prepared = false;
     private boolean preparing = false;
     private Button play;
+   private String play_url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,13 +39,17 @@ public class playMusicActivity extends BaseActivity implements View.OnClickListe
         play.setOnClickListener(this);
         pause.setOnClickListener(this);
         stop.setOnClickListener(this);
+
+        Intent intent=getIntent();
+        play_url=intent.getStringExtra("play_url");
+
         if (ContextCompat.checkSelfPermission(playMusicActivity.this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(playMusicActivity.this, new String[]{
                     Manifest.permission.ACCESS_NETWORK_STATE
             }, 1);
         }
     }
-    private void initMediaPlayer() {
+    private void initMediaPlayer(String play_url) {
         try {
             if (mediaPlayer == null) {
                 // do object instance init.
@@ -59,7 +65,7 @@ public class playMusicActivity extends BaseActivity implements View.OnClickListe
 
 
             }
-            mediaPlayer.setDataSource("http://110.64.88.125:8080/mp3/Chumai.mp3");
+            mediaPlayer.setDataSource(play_url);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,7 +89,7 @@ public class playMusicActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button1:
-                initMediaPlayer();
+                initMediaPlayer(play_url);
                 if(!mediaPlayer.isPlaying()) {
                     if(prepared) mediaPlayer.start();
                     else if(!preparing) {
@@ -102,7 +108,7 @@ public class playMusicActivity extends BaseActivity implements View.OnClickListe
             case R.id.button3:
                 mediaPlayer.reset();
                 prepared = false;
-                initMediaPlayer();
+                initMediaPlayer(play_url);
                 break;
             default:
                 break;

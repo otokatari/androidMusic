@@ -7,9 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import otokatari.com.otokatari.Activity.SearchMusicActivity;
-import otokatari.com.otokatari.Activity.TempPlayMusicActivity;
-import otokatari.com.otokatari.Activity.TempSearchAcitvity;
+import otokatari.com.otokatari.Activity.playMusicActivity;
 import otokatari.com.otokatari.R;
 
 import java.util.ArrayList;
@@ -65,7 +63,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(parentActivityContext, TempPlayMusicActivity.class);
+                Intent intent=new Intent(parentActivityContext, playMusicActivity.class);
                 parentActivityContext.startActivity(intent);
             }
         });
