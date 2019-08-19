@@ -87,12 +87,12 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_search_music);
-        initData();
         initViews();
+        initData();
     }
 
     private void initViews() {
-        lvResults = (ListView) findViewById(R.id.main_lv_search_results);
+        lvResults = findViewById(R.id.main_lv_search_results);
         searchView = (SearchView) findViewById(R.id.search_text);
         //设置监听
         searchView.setSearchViewListener(this);
@@ -120,7 +120,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
         //初始化自动补全数据
         getAutoCompleteData(null);
         //初始化搜索结果数据
-        getResultData(null);
+        getResultData();
     }
 
     /**
@@ -130,7 +130,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
         int size = 20;
         dbData = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
-            dbData.add(new Bean("给我一个理由忘记" + (i + 1), "梁静茹" + (i + 1)));
+           // dbData.add(new Bean("给我一个理由忘记" + (i + 1), "梁静茹" + (i + 1)));
         }
     }
 
@@ -173,20 +173,14 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     /**
      * 获取搜索结果data和adapter
      */
-    private void getResultData(String text) {
+    private void getResultData() {
         if (resultData == null) {
             // 初始化
             resultData = new ArrayList<>();
-        } else {
-            resultData.clear();
-            for (int i = 0; i < dbData.size(); i++) {
-                if (dbData.get(i).getTitle().contains(text.trim())) {
-                    resultData.add(dbData.get(i));
-                }
-            }
         }
         if (resultAdapter == null) {
             resultAdapter = new SearchAdapter(this, resultData, R.layout.item_bean_list);
+            lvResults.setAdapter(resultAdapter);
         } else {
             resultAdapter.notifyDataSetChanged();
         }
@@ -201,7 +195,6 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     public void onRefreshAutoComplete(String text) {
         //更新数据
         getAutoCompleteData(text);
-
     }
 
     /**
@@ -216,20 +209,12 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
                 for (int i = 0; i < TaskRet.size(); i++) {
                     resultData.add(new Bean(TaskRet.get(i).getSongName(), TaskRet.get(i).getFileName()));
                 }
-                Toast.makeText(this, "完成搜素", Toast.LENGTH_SHORT).show();
+                getResultData();
             } else
                 Log.d("MainActivity", "gg");
         }).execute(text);
-        //更新result数据
-        getResultData(text);
-        lvResults.setVisibility(View.VISIBLE);
-        //第一次获取结果 还未配置适配器
-        if (lvResults.getAdapter() == null) {
-            //获取搜索数据 设置适配器
-            lvResults.setAdapter(resultAdapter);
-        } else {
-            //更新搜索数据
-            resultAdapter.notifyDataSetChanged();
+        if(lvResults.getVisibility() == View.GONE){
+            lvResults.setVisibility(View.VISIBLE);
         }
     }
 }
