@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import otokatari.com.otokatari.Adapter.SearchAdapter;
+import otokatari.com.otokatari.Model.Player.LyricInfo;
 import otokatari.com.otokatari.Model.Player.MusicInfo;
 import otokatari.com.otokatari.Model.s.Bean;
 import otokatari.com.otokatari.Model.s.Response.KugouGetDownloadAddResponse;
@@ -22,6 +23,8 @@ import otokatari.com.otokatari.View.SearchView;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static otokatari.com.otokatari.Utils.LyricParserImpl.ParseLyric;
 
 public class SearchMusicActivity extends Activity implements SearchView.SearchViewListener
 {
@@ -264,11 +267,12 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
             {
                 String play_url = TaskRet.getPlay_url();
                 String img = TaskRet.getImg();
+                LyricInfo lyric=ParseLyric(TaskRet.getLyrics());
                 String author_name = TaskRet.getAuthor_name();
                 String song_name = TaskRet.getSong_name();
                 Intent intent = new Intent(SearchMusicActivity.this, PlayerActivityDefaultImpl.class);
 
-                MusicInfo<String> musicInfo = new MusicInfo<>(song_name,author_name,img,null,play_url,false,String.class);
+                MusicInfo<String> musicInfo = new MusicInfo<>(song_name,author_name,img,lyric,play_url,false,String.class);
                 intent.putExtra("MusicInfo",musicInfo);
                 startActivity(intent);
 
