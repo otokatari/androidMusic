@@ -64,6 +64,7 @@ public class DiscView extends RelativeLayout
     public RelativeLayout LyricContainer;
 
 
+    @Getter
     private Drawable DiscBackgroundDrawable;
 
     // 歌词显示布局控制

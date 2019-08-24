@@ -16,6 +16,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -34,14 +36,19 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.bumptech.glide.request.target.DrawableImageViewTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import otokatari.com.otokatari.Adapter.Player.MusicDiscPagerAdapter;
 import otokatari.com.otokatari.Model.Player.*;
 import otokatari.com.otokatari.R;
-import otokatari.com.otokatari.Utils.LyricParserImpl;
+import otokatari.com.otokatari.Utils.BitmapTransformer.TransformToPlayerBlurBackground;
+import otokatari.com.otokatari.Utils.BitmapTransformer.TransformToPlayerDiscView;
 import otokatari.com.otokatari.Utils.Player.DisplayUtil;
 import otokatari.com.otokatari.Utils.Player.FastBlurUtil;
 import otokatari.com.otokatari.Utils.Player.SimpleMusicPlayer;
@@ -50,7 +57,8 @@ import otokatari.com.otokatari.View.Player.MusicDiscPager;
 import otokatari.com.otokatari.View.Player.MusicStatus;
 import otokatari.com.otokatari.View.Player.PlayerRootView;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -299,14 +307,12 @@ public abstract class PlayerActivity extends AppCompatActivity
                 dv.setLyricViewClickListener(this::SwitchLyricToDisc);
 
                 // 加载图片
-                LoadMusicAlbumPhoto(MusicInfoList.get(i).getAlbumPhoto(), new SimpleTarget<Bitmap>()
-                {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation)
-                    {
-                        dv.SetDiscAlbumPhoto(resource);
-                    }
-                });
+                LoadMusicAlbumPhoto(MusicInfoList.get(i).getAlbumPhoto(),
+                        new TransformToPlayerDiscView(
+                                804,
+                                getResources(),
+                                dv.getDiscBackgroundDrawable()),
+                        new DrawableImageViewTarget(dv.DiscImage));
             }
 
             if (musicDiscPagerAdapter == null)
@@ -696,12 +702,18 @@ public abstract class PlayerActivity extends AppCompatActivity
         discImage.setRotation(0);
     }
 
-    private void LoadMusicAlbumPhoto(String fileName, SimpleTarget<Bitmap> handler)
+    private void LoadMusicAlbumPhoto(String fileName, BitmapTransformation bitmapTransformation, Target target)
     {
-        Glide.with(PlayerActivity.this)
-                .load(fileName)
-                .asBitmap()
-                .into(handler);
+
+            RequestBuilder<Drawable> rb = Glide.with(PlayerActivity.this)
+                    .load(fileName)
+                    .dontAnimate();
+            if (bitmapTransformation != null)
+            {
+                rb = rb.transform(bitmapTransformation);
+            }
+            rb.into(target);
+
     }
 
 
@@ -777,17 +789,18 @@ public abstract class PlayerActivity extends AppCompatActivity
 
     private void OnPlayerBackgroundChanged(String NewFileName)
     {
-        LoadMusicAlbumPhoto(NewFileName, new SimpleTarget<Bitmap>()
-        {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation)
-            {
-                new Thread(() -> {
-                    Drawable drawable = LoadPlayerBackgroundImage(resource);
-                    runOnUiThread(() -> PlayerRootLayout.SetPlayerBackground(drawable));
-                }).start();
-            }
-        });
+        LoadMusicAlbumPhoto(NewFileName,
+                new TransformToPlayerBlurBackground(
+                        getResources(),
+                        DisplayWHRatio),
+                new SimpleTarget<Drawable>()
+                {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition)
+                    {
+                        PlayerRootLayout.SetPlayerBackground(resource);
+                    }
+                });
     }
 
     // =============== 绑定按钮点击事件 ==================
