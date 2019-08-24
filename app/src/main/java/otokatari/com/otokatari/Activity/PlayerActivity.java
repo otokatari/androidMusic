@@ -825,10 +825,16 @@ public abstract class PlayerActivity extends AppCompatActivity
         if (0 <= curr && curr <= last || LoopMode.getValue() == PlayerLoopMode.LOOP_PLAY_LIST)
         {
             // 会触发OnPageSelected，在那里加载新的歌曲
-            MusicPlaylistPager.setCurrentItem((curr + offset + last + 1) % (last + 1), true);
-
-            PauseNeedleAnimation();
-            if (MusicPlayStatus.getValue() == MusicStatus.PLAY) PlayNeedleAnimation();
+            int next = (curr + offset + last + 1) % (last + 1);
+            if(curr == next) {
+                // 这种情况下setCurrentItem不会有onPageSelected回调，直接继续播放即可。
+                Play();
+            }
+            else {
+                MusicPlaylistPager.setCurrentItem(next, true);
+                PauseNeedleAnimation();
+                if (MusicPlayStatus.getValue() == MusicStatus.PLAY) PlayNeedleAnimation();
+            }
         } else MusicPlayStatus.onNext(MusicStatus.STOP);
     }
 
