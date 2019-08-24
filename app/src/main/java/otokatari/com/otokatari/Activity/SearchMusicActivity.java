@@ -19,6 +19,7 @@ import otokatari.com.otokatari.R;
 import otokatari.com.otokatari.Service.Common.ActivityCollector;
 import otokatari.com.otokatari.Tasks.*;
 import otokatari.com.otokatari.View.SearchView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,6 +83,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
      */
     private static int hintSize = DEFAULT_HINT_SIZE;
 
+    //Netease Info
     private static String song_name;
     private static String author_name;
     private static String id;
@@ -225,22 +227,34 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     @Override
     public void onSearch(String text) {
 
-//        new KugouSearchSongsTask(TaskRet -> {
-//            if (TaskRet != null)
-//            {
-//                resultData.clear();
-//                for (int i = 0; i < TaskRet.size(); i++)
-//                {
-//                    resultData.add(new Bean(TaskRet.get(i).getSongName(), TaskRet.get(i).getFileName(), TaskRet.get(i).getFileHash()));
-//                }
-//                getResultData();
-//            } else
-//                Log.d("SearchMusicActivity", "gg");
-//        }).execute(text);
+        //KugouSearch(text);
+        NeteaseSearch(text);
 
-        new NeteaseSearchSongsTask(TaskRet -> {
+
+        if (lvResults.getVisibility() == View.GONE) {
+            lvResults.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void KugouSearch(String text){
+                new KugouSearchSongsTask(TaskRet -> {
             if (TaskRet != null)
             {
+                resultData.clear();
+                for (int i = 0; i < TaskRet.size(); i++)
+                {
+                    resultData.add(new Bean(TaskRet.get(i).getSongName(), TaskRet.get(i).getFileName(), TaskRet.get(i).getFileHash()));
+                }
+                getResultData();
+            } else
+                Log.d("SearchMusicActivity", "gg");
+        }).execute(text);
+    }
+
+    public void NeteaseSearch(String text)
+    {
+        new NeteaseSearchSongsTask(TaskRet -> {
+            if (TaskRet != null) {
                 resultData.clear();
                 for (int i = 0; i < TaskRet.size(); i++) {
                     resultData.add(new Bean(TaskRet.get(i).getSong_name(), TaskRet.get(i).getAuthor_name(), TaskRet.get(i).getId()));
@@ -249,46 +263,46 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
             } else
                 Log.d("SearchMusicActivity", "gg");
         }).execute(text);
-
-        if (lvResults.getVisibility() == View.GONE) {
-            lvResults.setVisibility(View.VISIBLE);
-        }
     }
 
     public void searchDownloadAddress(String HashFile) {
-//        new GetKugouDownloadAddressTask(TaskRet -> {
-//            if (TaskRet != null)
-//            {
-//                String play_url = TaskRet.getPlay_url();
-//                String img = TaskRet.getImg();
-//                LyricInfo lyric=ParseLyric(TaskRet.getLyrics());
-//                String author_name = TaskRet.getAuthor_name();
-//                String song_name = TaskRet.getSong_name();
-//                Intent intent = new Intent(SearchMusicActivity.this, PlayerActivityDefaultImpl.class);
-//
-//                MusicInfo<String> musicInfo = new MusicInfo<>(song_name,author_name,img,lyric,play_url,false,String.class);
-//                intent.putExtra("MusicInfo",musicInfo);
-//                startActivity(intent);
-//
-//            } else
-//                Log.d("SearchMusicActivity", "gg");
-//        }).execute(HashFile);
 
+        //KugouSearchLoadAddress(HashFile);
+        NeteaseSearchLoadAddress(HashFile);
+    }
+
+    public void KugouSearchLoadAddress(String HashFile) {
+        new GetKugouDownloadAddressTask(TaskRet -> {
+            if (TaskRet != null) {
+                String play_url = TaskRet.getPlay_url();
+                String img = TaskRet.getImg();
+                LyricInfo lyric = ParseLyric(TaskRet.getLyrics());
+                String author_name = TaskRet.getAuthor_name();
+                String song_name = TaskRet.getSong_name();
+                Intent intent = new Intent(SearchMusicActivity.this, PlayerActivityDefaultImpl.class);
+
+                MusicInfo<String> musicInfo = new MusicInfo<>(song_name, author_name, img, lyric, play_url, false, String.class);
+                intent.putExtra("MusicInfo", musicInfo);
+                startActivity(intent);
+
+            } else
+                Log.d("SearchMusicActivity", "gg");
+        }).execute(HashFile);
+    }
+
+    public void NeteaseSearchLoadAddress(String id)
+    {
         new GetNeteaseLyricTask(TaskRet -> {
-            if(TaskRet!=null)
-            {
-                lyric=ParseLyric(TaskRet);
-            }
-            else
+            if (TaskRet != null) {
+                lyric = ParseLyric(TaskRet);
+            } else
                 Log.d("SearchMusicActivity", "gg");
         }).execute(id);
 
         new GetNeteaseImgTask(TaskRet -> {
-            if(TaskRet!=null)
-            {
-                picUrl=TaskRet;
-            }
-            else
+            if (TaskRet != null) {
+                picUrl = TaskRet;
+            } else
                 Log.d("SearchMusicActivity", "gg");
         }).execute(id);
 
@@ -301,7 +315,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
                 startActivity(intent);
             } else
                 Log.d("SearchMusicActivity", "gg");
-        }).execute(HashFile);
+        }).execute(id);
 
     }
 }
