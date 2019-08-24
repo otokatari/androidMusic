@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import otokatari.com.otokatari.Adapter.SearchAdapter;
+import otokatari.com.otokatari.Model.Player.MusicInfo;
 import otokatari.com.otokatari.Model.s.Bean;
 import otokatari.com.otokatari.Model.s.Response.KugouGetDownloadAddResponse;
 import otokatari.com.otokatari.R;
@@ -22,7 +23,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchMusicActivity extends Activity implements SearchView.SearchViewListener {
+public class SearchMusicActivity extends Activity implements SearchView.SearchViewListener
+{
 
     /**
      * 搜索结果列表view
@@ -83,13 +85,15 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     /**
      * 设置提示框显示项的个数
      */
-    public static void setHintSize(int hintSize) {
+    public static void setHintSize(int hintSize)
+    {
         SearchMusicActivity.hintSize = hintSize;
     }
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_search_music);
@@ -98,7 +102,8 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
         initData();
     }
 
-    private void initViews() {
+    private void initViews()
+    {
         lvResults = findViewById(R.id.main_lv_search_results);
         searchView = (SearchView) findViewById(R.id.search_text);
         //设置监听
@@ -108,10 +113,12 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
         searchView.setAutoCompleteAdapter(autoCompleteAdapter);
 
 
-        lvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvResults.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Bean bean=resultData.get(position);
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
+            {
+                Bean bean = resultData.get(position);
                 //Toast.makeText(SearchMusicActivity.this, bean.getFileHash(), Toast.LENGTH_SHORT).show();
                 searchDownloadAddress(bean.getFileHash());
 
@@ -122,7 +129,8 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     /**
      * 初始化数据
      */
-    private void initData() {
+    private void initData()
+    {
         //从数据库获取数据
         getDbData();
         //初始化热搜版数据
@@ -136,21 +144,25 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     /**
      * 获取db 数据
      */
-    private void getDbData() {
+    private void getDbData()
+    {
         int size = 50;
         dbData = new ArrayList<>(size);
-        for (int i = 0; i < size; i++) {
-           // dbData.add(new Bean("给我一个理由忘记" + (i + 1), "梁静茹" + (i + 1)));
+        for (int i = 0; i < size; i++)
+        {
+            // dbData.add(new Bean("给我一个理由忘记" + (i + 1), "梁静茹" + (i + 1)));
         }
     }
 
     /**
      * 获取热搜版data 和adapter
      */
-    private void getHintData() {
+    private void getHintData()
+    {
         hintData = new ArrayList<>(hintSize);
-        for (int i = 1; i <= hintSize; i++) {
-           // hintData.add("热搜版" + i + "：Android自定义View");
+        for (int i = 1; i <= hintSize; i++)
+        {
+            // hintData.add("热搜版" + i + "：Android自定义View");
         }
         hintAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, hintData);
     }
@@ -158,24 +170,31 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     /**
      * 获取自动补全data 和adapter
      */
-    private void getAutoCompleteData(String text) {
-        if (autoCompleteData == null) {
+    private void getAutoCompleteData(String text)
+    {
+        if (autoCompleteData == null)
+        {
             //初始化
             autoCompleteData = new ArrayList<>(hintSize);
-        } else {
+        } else
+        {
             // 根据text 获取auto data
             autoCompleteData.clear();
             for (int i = 0, count = 0; i < dbData.size()
-                    && count < hintSize; i++) {
-                if (dbData.get(i).getTitle().contains(text.trim())) {
+                    && count < hintSize; i++)
+            {
+                if (dbData.get(i).getTitle().contains(text.trim()))
+                {
                     autoCompleteData.add(dbData.get(i).getTitle());
                     count++;
                 }
             }
         }
-        if (autoCompleteAdapter == null) {
+        if (autoCompleteAdapter == null)
+        {
             autoCompleteAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, autoCompleteData);
-        } else {
+        } else
+        {
             autoCompleteAdapter.notifyDataSetChanged();
         }
     }
@@ -183,15 +202,19 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     /**
      * 获取搜索结果data和adapter
      */
-    private void getResultData() {
-        if (resultData == null) {
+    private void getResultData()
+    {
+        if (resultData == null)
+        {
             // 初始化
             resultData = new ArrayList<>();
         }
-        if (resultAdapter == null) {
+        if (resultAdapter == null)
+        {
             resultAdapter = new SearchAdapter(this, resultData, R.layout.item_bean_list);
             lvResults.setAdapter(resultAdapter);
-        } else {
+        } else
+        {
             resultAdapter.notifyDataSetChanged();
         }
     }
@@ -202,7 +225,8 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
      * @param text
      */
     @Override
-    public void onRefreshAutoComplete(String text) {
+    public void onRefreshAutoComplete(String text)
+    {
         //更新数据
         getAutoCompleteData(text);
     }
@@ -213,18 +237,22 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
      * @param text
      */
     @Override
-    public void onSearch(String text) {
+    public void onSearch(String text)
+    {
         new KugouSearchSongsTask(TaskRet -> {
-            if (TaskRet != null) {
+            if (TaskRet != null)
+            {
                 resultData.clear();
-                for (int i = 0; i < TaskRet.size(); i++) {
-                    resultData.add(new Bean(TaskRet.get(i).getSongName(), TaskRet.get(i).getFileName(),TaskRet.get(i).getFileHash()));
+                for (int i = 0; i < TaskRet.size(); i++)
+                {
+                    resultData.add(new Bean(TaskRet.get(i).getSongName(), TaskRet.get(i).getFileName(), TaskRet.get(i).getFileHash()));
                 }
                 getResultData();
             } else
                 Log.d("SearchMusicActivity", "gg");
         }).execute(text);
-        if(lvResults.getVisibility() == View.GONE){
+        if (lvResults.getVisibility() == View.GONE)
+        {
             lvResults.setVisibility(View.VISIBLE);
         }
     }
@@ -232,17 +260,18 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     public void searchDownloadAddress(String HashFile)
     {
         new GetKugouDownloadAddressTask(TaskRet -> {
-            if (TaskRet != null) {
-                String play_url=TaskRet.getPlay_url();
-                String img=TaskRet.getImg();
-                String author_name=TaskRet.getAuthor_name();
-                String song_name=TaskRet.getSong_name();
-                Intent intent=new Intent(SearchMusicActivity.this,playUIActivity.class);
-                intent.putExtra("play_url",play_url);
-                intent.putExtra("song_name",song_name);
-                intent.putExtra("img",img);
-                intent.putExtra("author_name",author_name);
+            if (TaskRet != null)
+            {
+                String play_url = TaskRet.getPlay_url();
+                String img = TaskRet.getImg();
+                String author_name = TaskRet.getAuthor_name();
+                String song_name = TaskRet.getSong_name();
+                Intent intent = new Intent(SearchMusicActivity.this, PlayerActivityDefaultImpl.class);
+
+                MusicInfo<String> musicInfo = new MusicInfo<>(song_name,author_name,img,null,play_url,false,String.class);
+                intent.putExtra("MusicInfo",musicInfo);
                 startActivity(intent);
+
             } else
                 Log.d("SearchMusicActivity", "gg");
         }).execute(HashFile);

@@ -21,16 +21,6 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity
-                android:name=".Activity.playUIActivity"
-                android:theme="@style/AppDarkBackground.NoActionBar">
-
-        </activity>
-
-        <service
-                android:name=".Service.MusicService"
-                android:enabled="true"
-                android:exported="false"/>
 
         <activity
                 android:name=".Activity.SearchMusicActivity"
@@ -76,6 +66,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".Activity.PlayerActivityDefaultImpl"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        </activity>
+
     </application>
 
 </manifest>
