@@ -5,7 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import otokatari.com.otokatari.InfrastructureExtension.TasksExtensions.CustomPostExecuteAsyncTask;
 import otokatari.com.otokatari.InfrastructureExtension.TasksExtensions.TaskPostExecuteWrapper;
-import otokatari.com.otokatari.Model.s.Response.KugouSearchSongsResponse;
+import otokatari.com.otokatari.Model.s.Response.Kugou_QQmusicSearchSongsResponse;
 import otokatari.com.otokatari.User.APIDocs;
 
 import java.util.ArrayList;
@@ -13,16 +13,16 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import static otokatari.com.otokatari.Utils.AppUtils.GetRequest;
 
-public class KugouSearchSongsTask extends CustomPostExecuteAsyncTask<String, Void, List<KugouSearchSongsResponse>> {
+public class KugouSearchSongsTask extends CustomPostExecuteAsyncTask<String, Void, List<Kugou_QQmusicSearchSongsResponse>> {
     private OkHttpClient okHttpClient;
-    List<KugouSearchSongsResponse> kugouSearchSongsResponses=new ArrayList<>();
+    List<Kugou_QQmusicSearchSongsResponse> kugouQQmusicSearchSongsRespons =new ArrayList<>();
 
-    public KugouSearchSongsTask(TaskPostExecuteWrapper<List<KugouSearchSongsResponse>> DoInPostExecute) {
+    public KugouSearchSongsTask(TaskPostExecuteWrapper<List<Kugou_QQmusicSearchSongsResponse>> DoInPostExecute) {
         super(DoInPostExecute);
     }
 
     @Override
-    protected List<KugouSearchSongsResponse> doInBackground(String... IDs) {
+    protected List<Kugou_QQmusicSearchSongsResponse> doInBackground(String... IDs) {
         try {
             String VariedUrl = APIDocs.fullKugouSearchSongs;
             VariedUrl = VariedUrl + IDs[0];
@@ -39,7 +39,7 @@ public class KugouSearchSongsTask extends CustomPostExecuteAsyncTask<String, Voi
         okHttpClient = new OkHttpClient.Builder().connectTimeout(4500, TimeUnit.MILLISECONDS).build();
     }
 
-    public List<KugouSearchSongsResponse> parseJSONWithJSONObject(String jsonData) {
+    public List<Kugou_QQmusicSearchSongsResponse> parseJSONWithJSONObject(String jsonData) {
         try {
             JSONObject jsonObject = new JSONObject(jsonData);
             JSONArray songs = jsonObject.getJSONObject("data").getJSONArray("lists");
@@ -50,14 +50,10 @@ public class KugouSearchSongsTask extends CustomPostExecuteAsyncTask<String, Voi
                String SongName=eachSong.getString("SongName");
                String FileHash=eachSong.getString("FileHash");
                String FileName=eachSong.getString("FileName");
-//               JSONArray Grp=eachSong.getJSONArray("Grp");
-//               String SongName=Grp.getJSONObject(0).getString("SongName");
-//               String FileHash=Grp.getJSONObject(0).getString("FileHash");
-//               String FileName=Grp.getJSONObject(0).getString("FileName");
-               KugouSearchSongsResponse kugouSearchSongsResponse1=new KugouSearchSongsResponse(SongName,FileHash,FileName);
-               kugouSearchSongsResponses.add(kugouSearchSongsResponse1);
+               Kugou_QQmusicSearchSongsResponse kugouQQmusicSearchSongsResponse1 =new Kugou_QQmusicSearchSongsResponse(SongName,FileHash,FileName,null);
+               kugouQQmusicSearchSongsRespons.add(kugouQQmusicSearchSongsResponse1);
            }
-            return  kugouSearchSongsResponses;
+            return kugouQQmusicSearchSongsRespons;
 
         } catch (Exception e) {
             e.printStackTrace();

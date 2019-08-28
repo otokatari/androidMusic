@@ -1,16 +1,12 @@
 package otokatari.com.otokatari.Tasks;
 
 import okhttp3.OkHttpClient;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import otokatari.com.otokatari.InfrastructureExtension.TasksExtensions.CustomPostExecuteAsyncTask;
 import otokatari.com.otokatari.InfrastructureExtension.TasksExtensions.TaskPostExecuteWrapper;
 import otokatari.com.otokatari.Model.s.Response.KugouGetDownloadAddResponse;
-import otokatari.com.otokatari.Model.s.Response.KugouSearchSongsResponse;
 import otokatari.com.otokatari.User.APIDocs;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static otokatari.com.otokatari.Utils.AppUtils.GetRequest;

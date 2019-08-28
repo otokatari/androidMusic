@@ -57,6 +57,7 @@ import otokatari.com.otokatari.View.Player.MusicDiscPager;
 import otokatari.com.otokatari.View.Player.MusicStatus;
 import otokatari.com.otokatari.View.Player.PlayerRootView;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.SecureRandom;
@@ -264,8 +265,8 @@ public abstract class PlayerActivity extends AppCompatActivity
             else if (mi.getFileType().equals(Uri.class)) {
                 MusicPlayer.LoadMusic((Uri) mi.getMusicFileName());
             }
-            else if (mi.getFileType().equals(FileInputStream.class)) {
-                MusicPlayer.LoadMusic((FileInputStream) mi.getMusicFileName());
+            else if (mi.getFileType().equals(File.class)) {
+                MusicPlayer.LoadMusic(new FileInputStream((File) mi.getMusicFileName()));
             }
             else if (mi.getFileType().equals(AssetFileDescriptor.class)) {
                 MusicPlayer.LoadMusic((AssetFileDescriptor) mi.getMusicFileName());

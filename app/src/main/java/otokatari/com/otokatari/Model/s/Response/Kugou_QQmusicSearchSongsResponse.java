@@ -1,15 +1,17 @@
 package otokatari.com.otokatari.Model.s.Response;
 
-public class KugouSearchSongsResponse {
+public class Kugou_QQmusicSearchSongsResponse {
     private String SongName;
     private String FileHash;
     private String FileName;
+    private String songid;
 
-   public KugouSearchSongsResponse(String SongName,String FileHash,String FileName)
+   public Kugou_QQmusicSearchSongsResponse(String SongName, String FileHash, String FileName,String songid)
     {
         this.SongName=SongName;
         this.FileHash=FileHash;
-        this.SongName=FileName;
+        this.FileName=FileName;
+        this.songid=songid;
     }
 
     public String getFileHash() {
@@ -34,5 +36,13 @@ public class KugouSearchSongsResponse {
 
     public void setSongName(String songName) {
         this.SongName = songName;
+    }
+
+    public String getSongid() {
+        return songid;
+    }
+
+    public void setSongid(String songid) {
+        this.songid = songid;
     }
 }

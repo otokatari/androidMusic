@@ -36,6 +36,7 @@ public class APIDocs {
     public static final String qqmusicGetDownloadAddress="http://isure.stream.qqmusic.qq.com/C400";
     public static final String neteaseGetLyric="/netease/lyric?id=";
     public static final String neteaseGetImg="/netease/song/detail?ids=";
+    public static final String qqmusicLyric="/qqmusic/song/lyric?songmid=";
 
     public static final String fullLogin=DeploymentAddress+login;
     public static final String fullLogout=DeploymentAddress+logout;
@@ -64,9 +65,10 @@ public class APIDocs {
     public static final String fullKugouGetDownloadAddress=ThreeMusicDeploymentAddress+kugouGetDownloadAddress;
     public static final String fullQQmusicSearchSongs=ThreeMusicDeploymentAddress+qqmusicSearchSongs;
     public static final String fullGetQQmusicVkey=ThreeMusicDeploymentAddress+getQQmusicVkey;
-    public static final String fullQQmusicGetDownloadAddress=ThreeMusicDeploymentAddress+qqmusicGetDownloadAddress;
+    public static final String fullQQmusicGetDownloadAddress=qqmusicGetDownloadAddress;
     public static final String fullGetNeteaseLyric=ThreeMusicDeploymentAddress+neteaseGetLyric;
     public static final String fullGetNeteaseImg=ThreeMusicDeploymentAddress+neteaseGetImg;
+    public static final String fullGetQQmusicLyric=ThreeMusicDeploymentAddress+qqmusicLyric;
 
 
 

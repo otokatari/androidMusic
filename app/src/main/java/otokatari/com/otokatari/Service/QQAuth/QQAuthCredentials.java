@@ -21,7 +21,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class QQAuthCredentials
 {
-    public static final String APPID = "101726834";
+    public static final String APPID = "101775822";
     private static Context ctx = otokatariAndroidApplication.getContext();
     private static SharedPreferences preferences = ctx.getSharedPreferences("LoginReturnData", MODE_PRIVATE);
 

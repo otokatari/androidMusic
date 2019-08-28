@@ -170,6 +170,7 @@ public class AppUtils
         return false;
     }
 
+    // /sdcard/Android/data/<package-name>/cache/
     public static String GetAppCachePath() {
         File[] CacheDirList = ContextCompat.getExternalCacheDirs(otokatariAndroidApplication.getContext());
         return CacheDirList[0].getAbsolutePath();
