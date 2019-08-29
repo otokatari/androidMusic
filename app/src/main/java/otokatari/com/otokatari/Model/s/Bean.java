@@ -5,12 +5,14 @@ public class Bean {
     private String singer;
     private String FileHash;
     private String songid;
+    private String albumid;
 
-    public Bean(String title, String content,String FileHash,String songid) {
+    public Bean(String title, String content,String FileHash,String songid,String albumid) {
         this.songName = title;
         this.singer = content;
         this.FileHash=FileHash;
         this.songid=songid;
+        this.albumid=albumid;
     }
     public String getTitle() {
         return songName;
@@ -37,11 +39,19 @@ public class Bean {
     }
 
     public String getSongid() {
-        return singer;
+        return songid;
     }
 
-    public void setSongid(String singer) {
-        this.singer = singer;
+    public void setSongid(String songid) {
+        this.songid=songid;
+    }
+
+    public String getAlbumid() {
+        return albumid;
+    }
+
+    public void setAlbumid(String albumid) {
+        this.albumid = albumid;
     }
 }
 

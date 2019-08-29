@@ -2,6 +2,7 @@ package otokatari.com.otokatari.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,12 +10,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import org.bouncycastle.crypto.modes.gcm.Tables1kGCMExponentiator;
 import otokatari.com.otokatari.Adapter.SearchAdapter;
 import otokatari.com.otokatari.Model.Player.LyricInfo;
 import otokatari.com.otokatari.Model.Player.MusicInfo;
 import otokatari.com.otokatari.Model.s.Bean;
-import otokatari.com.otokatari.Model.s.Response.KugouGetDownloadAddResponse;
 import otokatari.com.otokatari.R;
 import otokatari.com.otokatari.Service.Common.ActivityCollector;
 import otokatari.com.otokatari.Tasks.*;
@@ -25,9 +24,9 @@ import otokatari.com.otokatari.View.SearchView;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 import static otokatari.com.otokatari.Utils.LyricParserImpl.ParseLyric;
+
 import android.util.Base64;
 
 public class SearchMusicActivity extends Activity implements SearchView.SearchViewListener {
@@ -78,6 +77,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
      */
     public static List<Bean> resultData;
 
+
     /**
      * 默认提示框显示项的个数
      */
@@ -102,10 +102,10 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     private static String vkey;
     private static String songmid;
     private static String songid;
-    private static InputStream inputStream;
-    private static String filePath = AppUtils.GetAppCachePath() + "/" + "QQmusic.m4a";
+    //private static String filePath=AppUtils.GetAppCachePath()+"/"+"image.webp";
+    private static String albummid;
 
-    private CountDownLatch countDownLatch;
+
 
     /**
      * 设置提示框显示项的个数
@@ -142,9 +142,9 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
                 song_name = bean.getTitle();
                 author_name = bean.getContent();
                 songmid = bean.getFileHash();
-                songid=bean.getSongid();
-
-                searchDownloadAddress(songmid);
+                songid = bean.getSongid();
+                albummid =bean.getAlbumid();
+                searchDownloadAddress(songid);
 
             }
         });
@@ -170,9 +170,6 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
     private void getDbData() {
         int size = 50;
         dbData = new ArrayList<>(size);
-        for (int i = 0; i < size; i++) {
-            // dbData.add(new Bean("给我一个理由忘记" + (i + 1), "梁静茹" + (i + 1)));
-        }
     }
 
     /**
@@ -274,7 +271,8 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
             if (TaskRet != null) {
                 resultData.clear();
                 for (int i = 0; i < TaskRet.size(); i++) {
-                    resultData.add(new Bean(TaskRet.get(i).getSongName(), TaskRet.get(i).getFileName(), TaskRet.get(i).getFileHash(),TaskRet.get(i).getSongid()));
+                    resultData.add(new Bean(TaskRet.get(i).getSongName(),TaskRet.get(i).getSingerName(),TaskRet.get(i).getSongmid(),
+                            TaskRet.get(i).getSongid(),TaskRet.get(i).getAlbumid()));
                 }
                 getResultData();
             } else
@@ -287,7 +285,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
             if (TaskRet != null) {
                 resultData.clear();
                 for (int i = 0; i < TaskRet.size(); i++) {
-                    resultData.add(new Bean(TaskRet.get(i).getSong_name(), TaskRet.get(i).getAuthor_name(), TaskRet.get(i).getId(),null));
+                    resultData.add(new Bean(TaskRet.get(i).getSong_name(), TaskRet.get(i).getAuthor_name(), TaskRet.get(i).getId(), null,null));
                 }
                 getResultData();
             } else
@@ -321,74 +319,101 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
         }).execute(HashFile);
     }
 
-    public void QQmusicSearchLoadAddress(String songmid) {
+    public void QQmusicSearchLoadAddress(String songid) {
 
         GetQQmusicLyric(songmid);
+        GetQQmusicImg(albummid, songid);
         GetQQmusicVkey(songmid);
-
     }
 
-    public void GetQQmusicLyric(String songmid)
-    {
+    public void GetQQmusicLyric(String songmid) {
         new GetQQmusicLyricTask(TaskRet -> {
-            if(TaskRet!=null)
-            {
-                Log.d("SearchMusicActivity","老哥");
+            if (TaskRet != null) {
                 String str = new String(Base64.decode(TaskRet.getBytes(), Base64.DEFAULT));
-                lyric=ParseLyric(str);
-            }
-            else
+                lyric = ParseLyric(str);
+            } else
                 Log.d("SearchMusicActivity", "获取不到QQ音乐歌词");
         }).execute(songmid);
     }
+
     public void GetQQmusicVkey(String songmid) {
         new GetQQmusicVkeyTask(TaskRet -> {
             if (TaskRet != null) {
                 vkey = TaskRet;
                 GetQQmusicDownloadStream(songmid, vkey);
             } else {
-                Log.d("SearchMusicActivity", "获取不到QQmus的Vkey");
+                Log.d("SearchMusicActivity", "获取不到QQmusic的Vkey");
             }
         }).execute(songmid);
     }
 
-    public void GetQQmusicDownloadStream(String songmid, String vkey) {
-        String VariedUrl = APIDocs.fullQQmusicGetDownloadAddress+songmid+".m4a?guid=5448538077&vkey="+vkey
-                +"&uin=0&fromtag=66";
-        MusicInfo<String> musicInfo = new MusicInfo<>(song_name, author_name, null, lyric, VariedUrl, false, String.class);
-        startActivity(new Intent(SearchMusicActivity.this, PlayerActivityDefaultImpl.class).putExtra("MusicInfo",musicInfo));
+    public void GetQQmusicImg(String albummid, String songmid) {
+        new GetQQmusicImgTask(TaskRet -> {
+            if (TaskRet != null) {
+               QQmusicWriteToLocal(TaskRet);
+
+            } else {
+                Log.d("SearchMusicActivity", "获取不到QQmusic的图片");
+            }
+        }).execute(albummid, songmid);
+
     }
 
-//    public void QQmusicWriteToLocal(InputStream inputStream) {
-//        new Thread(() -> {
-//            try {
-//                writeToLocal(inputStream);
-//                Intent intent = new Intent(SearchMusicActivity.this, PlayerActivityDefaultImpl.class);
-//                File file = new File(filePath);
-//
-//                MusicInfo<File> musicInfo = new MusicInfo<>(song_name, author_name, null, null, file, false, File.class);
-//                intent.putExtra("MusicInfo", musicInfo);
-//                startActivity(intent);
-//                Log.d("MainActivity", "hhh");
-//            } catch (IOException e) {
-//                e.printStackTrace();
+    public void GetQQmusicDownloadStream(String songmid, String vkey) {
+        String VariedUrl = APIDocs.fullQQmusicGetDownloadAddress + songmid + ".m4a?guid=5448538077&vkey=" + vkey
+                + "&uin=0&fromtag=66";
+        MusicInfo<String> musicInfo = new MusicInfo<>(song_name, author_name, picUrl, lyric, VariedUrl, false, String.class);
+        startActivity(new Intent(SearchMusicActivity.this, PlayerActivityDefaultImpl.class).putExtra("MusicInfo", musicInfo));
+    }
+
+    public void QQmusicWriteToLocal(InputStream inputStream) {
+        new Thread(() -> {
+            try {
+                writeToLocal(inputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }).start();
+    }
+//    public static void readFileContent(String fileName) {
+//        File file = new File(fileName);
+//        BufferedReader reader = null;
+//        StringBuffer sbf = new StringBuffer();
+//        try {
+//            reader = new BufferedReader(new FileReader(file));
+//            String tempStr;
+//            while ((tempStr = reader.readLine()) != null) {
+//                sbf.append(tempStr);
 //            }
-//
-//        }).start();
-//    }
-
-
-//    private static void writeToLocal(InputStream input) throws IOException {
-//        int index;
-//        byte[] bytes = new byte[1024];
-//        FileOutputStream downloadFile = new FileOutputStream(filePath);
-//        while ((index = input.read(bytes)) >= 0) {
-//            downloadFile.write(bytes, 0, index);
-//            downloadFile.flush();
+//            reader.close();
+//            picUrl=sbf.toString();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (reader != null) {
+//                try {
+//                    reader.close();
+//                } catch (IOException e1) {
+//                    e1.printStackTrace();
+//                }
+//            }
 //        }
-//        downloadFile.close();
-//        input.close();
+//       picUrl=sbf.toString();
 //    }
+
+    private static void writeToLocal(InputStream input) throws IOException {
+        int index;
+        byte[] bytes = new byte[1024];
+        FileOutputStream downloadFile = new FileOutputStream(AppUtils.GetAppCachePath()+"/"+songid+"image.webp");
+        picUrl=AppUtils.GetAppCachePath()+"/"+songid+"image.webp";
+        while ((index = input.read(bytes)) >= 0) {
+            downloadFile.write(bytes, 0, index);
+            downloadFile.flush();
+        }
+        downloadFile.close();
+        input.close();
+    }
 
     public void NeteaseSearchLoadAddress(String id) {
         GetNeteaseLyric(id);
@@ -419,7 +444,7 @@ public class SearchMusicActivity extends Activity implements SearchView.SearchVi
             if (TaskRet != null) {
                 String play_url = TaskRet;
                 Intent intent = new Intent(SearchMusicActivity.this, PlayerActivityDefaultImpl.class);
-                MusicInfo<String> musicInfo = new MusicInfo<>(song_name, author_name, picUrl, lyric, AppUtils.GetAppCachePath() + "/" + "QQmusic.m4a", false, String.class);
+                MusicInfo<String> musicInfo = new MusicInfo<>(song_name, author_name, picUrl, lyric, play_url, false, String.class);
                 intent.putExtra("MusicInfo", musicInfo);
                 startActivity(intent);
             } else

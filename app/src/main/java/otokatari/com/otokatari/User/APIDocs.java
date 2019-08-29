@@ -37,6 +37,7 @@ public class APIDocs {
     public static final String neteaseGetLyric="/netease/lyric?id=";
     public static final String neteaseGetImg="/netease/song/detail?ids=";
     public static final String qqmusicLyric="/qqmusic/song/lyric?songmid=";
+    public static final String qqmusicDetails="/qqmusic/song/detail?songmid=";
 
     public static final String fullLogin=DeploymentAddress+login;
     public static final String fullLogout=DeploymentAddress+logout;
@@ -69,8 +70,7 @@ public class APIDocs {
     public static final String fullGetNeteaseLyric=ThreeMusicDeploymentAddress+neteaseGetLyric;
     public static final String fullGetNeteaseImg=ThreeMusicDeploymentAddress+neteaseGetImg;
     public static final String fullGetQQmusicLyric=ThreeMusicDeploymentAddress+qqmusicLyric;
-
-
+    public static final String fullQQmusicDetails=ThreeMusicDeploymentAddress+qqmusicDetails;
 
 
 

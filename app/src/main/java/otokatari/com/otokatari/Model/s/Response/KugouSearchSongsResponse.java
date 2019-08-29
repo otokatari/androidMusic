@@ -1,12 +1,12 @@
 package otokatari.com.otokatari.Model.s.Response;
 
-public class Kugou_QQmusicSearchSongsResponse {
+public class KugouSearchSongsResponse {
     private String SongName;
     private String FileHash;
     private String FileName;
     private String songid;
 
-   public Kugou_QQmusicSearchSongsResponse(String SongName, String FileHash, String FileName,String songid)
+   public KugouSearchSongsResponse(String SongName, String FileHash, String FileName, String songid)
     {
         this.SongName=SongName;
         this.FileHash=FileHash;

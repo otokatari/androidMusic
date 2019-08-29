@@ -164,6 +164,7 @@ public class LoginActivity extends BaseActivity {
 
 
 //QQ
+
     private void ClearInValidateUserAccountInfo() {
         //既然跳到了这个页面，说明之前的登陆信息是无效的，需要清除。
         QQAuthCredentials.ClearStoredIdentity();
@@ -214,9 +215,11 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void PrepareToMainActivity() {
+
         Intent intent=new Intent(LoginActivity.this,MainActivity.class);
         startActivity(intent);
         QQAuthCredentials.LoadUserAccountInfo();
+
     }
 
     @Override
